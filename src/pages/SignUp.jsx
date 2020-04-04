@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Auth, Hub} from 'aws-amplify'
+import {Auth} from 'aws-amplify'
 import {
   useHistory,
   useLocation
@@ -24,8 +24,6 @@ export default function SignUp({signIn}) {
   const [messsage, setMessage] = useState('');
 
   let history = useHistory();
-  let location = useLocation();
-  let { from } = location.state || { from: { pathname: "/" } };
 
   function createNewAccount() {
     Auth.signUp({
