@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React Router](https://github.com/facebook/create-react-app).
+# Raven React
+
+This project is the React website frontend for my Raven Messenger Demo. The demo will eventually be available at [raven.bmcandrews.com](raven.bmcandrews.com).
+
 
 ## Available Scripts
 
