@@ -1,0 +1,333 @@
+@font-face {
+  font-family: "PxSans";
+  src: url("/static/fonts/px_sans_nouveaux.ttf");
+}
+
+
+// General
+
+div, span, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: black;
+  color: white;
+  height: 100vh;
+}
+
+a {
+  color: white;
+}
+
+img {
+  display: block;
+}
+
+.error {
+  color: red;
+}
+
+.seleted {
+  font-weight: bold;
+}
+
+.text-lg {
+  font-size: 70px;
+}
+
+.text-md {
+  font-size: 30px;
+}
+
+.text-sm {
+  font-size: 14px;
+}
+
+.hidden {
+  display: none;
+}
+
+// Navbar
+
+.navbar {
+  line-height: 1;
+  font-size: 30px;
+  padding-bottom: 10px;
+  border-bottom: solid 0.5px rgba(255, 255, 255, 0.7);
+
+  .navbar-img {
+	background: url("/static/img/glitch-5.png") center;
+	background-size: cover;
+	width: 100vw;
+	height: 6.25vw;
+  }
+
+  .navbar-content {
+	padding-left: 10px;
+	padding-right: 10px;
+  }
+
+  .navbar-item {
+	vertical-align: center;
+	font-size: 14px;
+	display: inline-block;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .navbar-item-right {
+	display: inline-block;
+	position: absolute;
+	right: 10px;
+  }
+}
+
+// Centering
+
+@mixin horizontal-center($width) {
+  border: solid white 2px;
+  width: $width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.horizontal-center-sm {
+  @include horizontal-center(400px);
+}
+
+.horizontal-center-md {
+  @include horizontal-center(500px);
+}
+
+.vertical-center-container {
+  //min-height: 100vh;
+}
+
+.vertical-center {
+  margin: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(50%);
+  text-align: center;
+}
+
+.centered {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+// Row
+
+.row {
+  display: block;
+  width: 100%;
+
+  span {
+	display: inline-block;
+	width: 62px;
+  }
+}
+
+// Inputs & Buttons
+
+textarea, select, input, button { outline: none; }
+
+button, input, textarea {
+  margin: 5px;
+  font-family: PxSans, serif;
+  font-size: 8px;
+}
+
+button {
+  padding: 3px 15px;
+  border: 2px solid #a6a6a6;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  background-color: #bfbfbf;
+
+  &:active {
+	border: 2px solid #a6a6a6;
+	border-left-color: #444;
+	border-top-color: #444;
+  }
+}
+
+input, textarea {
+  border: 2px solid #a6a6a6;
+  border-left-color: #444;
+  border-top-color: #444;
+}
+
+input {
+  width: 200px;
+  margin-right: 20px;
+}
+
+textarea {
+  resize: none;
+}
+
+
+// List
+
+.fixed-content {
+  position: absolute;
+  bottom: 20px;
+  top: calc(6.25vw + 60px);
+  left: calc((100vw - 500px) / 2);
+  right: calc((100vw - 500px) / 2);
+  border: solid 2px #bfbfbf;
+}
+
+.scroll-container {
+  overflow-y: scroll;
+  background-color: white;
+  color: black;
+  border: 2px solid #a6a6a6;
+  border-left-color: #444;
+  border-top-color: #444;
+  height: calc(100% - 40px - 4px);
+
+  &::-webkit-scrollbar {
+	width:  20px;
+	height: 20px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+	border: 1px solid rgb(60, 60, 60);
+	background-color: #bfbfbf;
+  }
+
+  &::-webkit-scrollbar-track {
+	background: url("/static/img/check.png") repeat;
+  }
+}
+
+.scroll-container-messages {
+  height: calc(100% - (3 * 40px) - 4px);
+}
+
+.list {
+  font-family: PxSans, serif;
+  font-size: 8px;
+  background-color: white;
+  color: black;
+  height: 100%;
+
+
+  .list-item, .list-header, .list-placeholder {
+	display: flex;
+	align-items: center;
+	height: 40px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: black;
+  }
+
+  .list-header{
+	font-size: 9px;
+	font-weight: bold;
+	background-color: #bfbfbf;
+	justify-content: space-between;
+
+	span {
+	  margin-left: 5px;
+	}
+
+	input {
+	  margin-right: 0;
+	  width: 100px;
+	}
+  }
+
+  .list-footer {
+	@extend .list-header;
+	height: 80px;
+	padding: 0;
+
+	button, textarea {
+	  height: 60px;
+	}
+
+	textarea {
+	  flex-grow: 2;
+	}
+  }
+
+  .list-button:hover {
+	background-color: rgb(0,0,128);
+	color: white;
+	a {
+	  color: white;
+	}
+  }
+
+  .list-placeholder {
+	justify-content: center;
+	font-style: italic;
+	color: #bfbfbf !important;
+  }
+}
+
+.message-sender, .message-content {
+  font-family: "Times", sans-serif;
+  font-size: 14px;
+}
+
+.message-sender {
+  font-weight: bold;
+  text-decoration: underline;
+  color: rgb(0,0,255);
+  padding-right: 5px;
+}
+
+.current-user {
+  color: red !important;
+}
+
+// Login
+
+#login-cont {
+  .text-md, button {
+	margin-top: 20px;
+	margin-bottom: 20px;
+  }
+
+  .text-sm {
+	margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+#msg-label {
+  min-height: 17px;
+}
+
+// Index
+
+#main-content {
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  h3, p {
+	margin-left: 10px;
+	margin-right: 10px;
+  }
+
+  img {
+	border-top: solid 2px white;
+  }
+}
+
+// Messages
+
+
+
+
+
