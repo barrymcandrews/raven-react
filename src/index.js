@@ -5,12 +5,20 @@ import Router from './components/Router';
 import * as serviceWorker from './serviceWorker';
 import Amplify from 'aws-amplify';
 
-Amplify.configure({
+  Amplify.configure({
   Auth: {
     userPoolId: 'us-east-1_VkC1xW2gz',
-    userPoolWebClientId: '4vc9u8rtpbn5qjos6uqf1iaj13',
+    userPoolWebClientId: '5svih4vto1328lclqt7tojecc7',
     region: 'us-east-1',
-  }
+  },
+    API: {
+      endpoints: [
+        {
+          name: "RavenApi",
+          endpoint: "https://11yv23p3xd.execute-api.us-east-1.amazonaws.com/prod"
+        },
+      ]
+    }
 });
 
 ReactDOM.render(

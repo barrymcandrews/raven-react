@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Auth, Hub} from 'aws-amplify'
 import {
   useHistory,
-  useLocation
+  useLocation,
 } from "react-router-dom";
 
 const errorMap = {
@@ -15,7 +15,7 @@ const errorMap = {
   AuthError: 'Username can not be empty.',
 };
 
-export default function Login({signIn}) {
+export default function Login({authState}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [messsage, setMessage] = useState('');
@@ -37,6 +37,8 @@ export default function Login({signIn}) {
       });
   }
 
+  if (authState === 'signedIn') history.replace('/');
+
   return (
     <div id="login-cont" className="vertical-center-container">
       <div className="centered vertical-center horizontal-center-sm">
@@ -51,7 +53,7 @@ export default function Login({signIn}) {
             <span className="text-sm">Password:</span>
             <input type="password" onChange={(event) => setPassword(event.target.value)}/>
           </div>
-          <button onClick={logIn}>Log In</button>
+          <button onClick={() => logIn()}>Log In</button>
           <button onClick={() => history.replace('/signup')}>Create New Account</button>
         </div>
       </div>

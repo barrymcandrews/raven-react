@@ -14,9 +14,10 @@ import Rooms from '../pages/Rooms';
 import {Authenticator} from 'aws-amplify-react';
 import {Auth} from 'aws-amplify';
 import Verify from "../pages/Verify";
+import Footer from "./Footer";
 
 function Router() {
-  const [authState, setAuthState] = useState('signIn');
+  const [authState, setAuthState] = useState('loading');
 
   return (
     <BrowserRouter>
@@ -26,11 +27,12 @@ function Router() {
           <Route exact path="/" children={<Home/>}/>
           <Route exact path="/signup" children={<SignUp/>}/>
           <Route exact path="/verify-user/:username" children={<Verify/>}/>
-          <Route exact path="/login" children={<Login/>}/>
+          <Route exact path="/login" children={<Login authState={authState}/>}/>
           <Route exact path="/logout" children={<Logout/>}/>
           <PrivateRoute authState={authState} exact path="/rooms" children={<Rooms/>}/>
           <PrivateRoute authState={authState} exact path="/rooms/:id" children={<Chat/>}/>
         </Switch>
+        <Footer/>
       </Authenticator>
     </BrowserRouter>
   );
@@ -42,7 +44,7 @@ function PrivateRoute({children, authState, ...rest}) {
       authState
       {...rest}
       render={({ location }) =>
-        authState === 'signedIn' ? (
+        authState === 'signedIn' || authState === 'loading' ? (
           children
         ) : (
           <Redirect to={{

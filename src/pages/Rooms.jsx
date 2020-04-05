@@ -1,57 +1,104 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
+import {Auth, API} from "aws-amplify";
 
-export default class Rooms extends React.Component {
+export default function Rooms() {
+  const [username, setUsername] = useState('');
+  const [apiToken, setApiToken] = useState('');
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      rooms: [],
+  const [rooms, setRooms] = useState([]);
+  const [hasError, setError] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+
+  const [newRoomName, setNewRoomName] = useState('');
+  const [createdRooms, setCreatedRooms] = useState(0);
+
+  useEffect(() => {
+    Auth.currentUserInfo()
+      .then(user => {
+        setUsername(user.username);
+      });
+  }, []);
+
+  useEffect(() => {
+    Auth.currentSession()
+      .then(session => {
+        console.log(session.getIdToken().getJwtToken());
+        setApiToken(session.getIdToken().getJwtToken());
+      });
+  }, []);
+
+  useEffect(() => {
+    if (apiToken !== '') {
+      API.get('RavenApi', '/v1/rooms', {
+        headers: {Authorization: apiToken}
+      })
+        .then(resp => {
+          setLoading(false);
+          setRooms(resp);
+        })
+        .catch(err => setError(true));
     }
-  }
+  }, [apiToken, createdRooms]);
 
-  async componentDidMount() {
-    // let response = await fetch('https://11yv23p3xd.execute-api.us-east-1.amazonaws.com/prod/v1/rooms');
-    // let respData = await response.json();
-    // console.log(respData);
-    // this.setState({rooms: respData});
-  }
 
-  render() {
-	  return (
-      <div className="fixed-content">
-        <div className="list">
-          <div className="list-header">
-            <span>Chat Rooms</span>
-            <span>
-						<input id="room-name" type="text" placeholder="Group Name"/>
-						<button onClick="createRoom()">New Chat Room</button>
-					</span>
-          </div>
-          <div id="list-item-target" className="scroll-container">
-            {this.roomsList()}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const createRoom = () => {
+    API.post('RavenApi', '/v1/rooms', {
+      headers: {Authorization: apiToken},
+      body: {name: newRoomName}
+    })
+      .then(() => setCreatedRooms(createdRooms + 1))
+  };
 
-  roomsList() {
-    if (this.state.rooms.length === 0) {
+  const deleteRoom = (name) => {
+    API.del('RavenApi', `/v1/rooms/${name}`, {
+      headers: {Authorization: apiToken},
+    })
+      .then(() => setCreatedRooms(createdRooms - 1))
+  };
+
+  const roomsList = () => {
+    if (hasError) {
+      return <div className="error list-placeholder">Unable to load rooms.</div>;
+    } else if (isLoading) {
       return <div className="list-placeholder">Loading rooms...</div>;
+    } else if (rooms.length === 0) {
+      return <div className="list-placeholder">No rooms.</div>;
     } else {
       const roomsList = [];
-      this.state.rooms.forEach((room) => {
+      rooms.forEach((room, index) => {
         roomsList.push(
-          <div className="list-item list-button">
+          <div key={`room-${index}`} className="list-item list-button">
             <Link className="list-item" to={'/rooms/' + room.name}>{room.name}</Link>
-            {/*<Link className="list-item" onclick="deleteRoom(${room['id']})" href="#">(Delete)</Link>*/}
+            {(username === room.creator) &&
+              // eslint-disable-next-line
+              <a className="list-item" onClick={() => deleteRoom(room.name)} href="#">(Delete)</a>}
           </div>
         );
       });
       return roomsList;
     }
-  }
+  };
+
+  return (
+    <div className="fixed-content">
+      <div className="list">
+        <div className="list-header">
+          <span>Chat Rooms</span>
+          <span>
+          <input onChange={(e) => setNewRoomName(e.target.value)}
+                 id="room-name" type="text" placeholder="Group Name"/>
+          <button onClick={() => createRoom()}>New Chat Room</button>
+        </span>
+        </div>
+        <div id="list-item-target" className="scroll-container">
+          {roomsList()}
+        </div>
+      </div>
+    </div>
+  );
+
 }
+
 
 

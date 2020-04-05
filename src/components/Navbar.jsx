@@ -14,7 +14,7 @@ export default function Navbar({ authState, authData }) {
   const navbarRight = (authState === 'signedIn') ? signedInItems() : signedOutItems();
 	return (
 		<div className="navbar">
-			<div className="navbar-img"/>
+      <Link to="/"><div className="navbar-img"/></Link>
 
 			<div className="navbar-content">
 				<Link className="navbar-item" to="/">Home</Link>

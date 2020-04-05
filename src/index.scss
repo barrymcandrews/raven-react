@@ -26,7 +26,7 @@ img {
 }
 
 .error {
-  color: red;
+  color: red !important;
 }
 
 .seleted {
@@ -60,8 +60,7 @@ img {
   .navbar-img {
 	background: url("/static/img/glitch-5.png") center;
 	background-size: cover;
-	width: 100vw;
-	height: 6.25vw;
+	min-height: 60px;
   }
 
   .navbar-content {
@@ -88,7 +87,7 @@ img {
 
 @mixin horizontal-center($width) {
   border: solid white 2px;
-  width: $width;
+  max-width: $width;
   margin-left: auto;
   margin-right: auto;
 }
@@ -182,6 +181,12 @@ textarea {
   left: calc((100vw - 500px) / 2);
   right: calc((100vw - 500px) / 2);
   border: solid 2px #bfbfbf;
+  @media only screen and (max-width: 600px) {
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 .scroll-container {
@@ -270,7 +275,7 @@ textarea {
   .list-placeholder {
 	justify-content: center;
 	font-style: italic;
-	color: #bfbfbf !important;
+	color: #bfbfbf;
   }
 }
 
@@ -287,7 +292,7 @@ textarea {
 }
 
 .current-user {
-  color: red !important;
+  color: red;
 }
 
 // Login
@@ -322,10 +327,19 @@ textarea {
 
   img {
 	border-top: solid 2px white;
+    max-width: 99vw;
   }
 }
 
-// Messages
+// Footer
+
+.footer {
+  color: #7f7f7f;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
 
 
 
