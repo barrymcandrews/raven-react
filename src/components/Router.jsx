@@ -30,7 +30,7 @@ function Router() {
           <Route exact path="/login" children={<Login authState={authState}/>}/>
           <Route exact path="/logout" children={<Logout/>}/>
           <PrivateRoute authState={authState} exact path="/rooms" children={<Rooms/>}/>
-          <PrivateRoute authState={authState} exact path="/rooms/:id" children={<Chat/>}/>
+          <PrivateRoute authState={authState} exact path="/rooms/:roomName" children={<Chat/>}/>
         </Switch>
         <Footer/>
       </Authenticator>
