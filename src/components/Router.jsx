@@ -14,7 +14,6 @@ import Rooms from '../pages/Rooms';
 import {Authenticator} from 'aws-amplify-react';
 import {Auth} from 'aws-amplify';
 import Verify from "../pages/Verify";
-import Footer from "./Footer";
 
 function Router() {
   const [authState, setAuthState] = useState('loading');
