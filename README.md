@@ -1,4 +1,4 @@
-# Raven React
+# Raven Messenger Frontend
 
 This project is the React website frontend for my Raven Messenger Demo. The demo is available at [raven.bmcandrews.com](raven.bmcandrews.com).
 
