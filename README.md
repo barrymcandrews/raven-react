@@ -1,7 +1,11 @@
-# Raven React
+# Raven Messenger Frontend
 
-This project is the React website frontend for my Raven Messenger Demo. The demo will eventually be available at [raven.bmcandrews.com](raven.bmcandrews.com).
+This project is the React website frontend for my Raven Messenger Demo. The demo is available at [raven.bmcandrews.com](raven.bmcandrews.com).
 
+*This project is under active development. The live demo may not be fully functional. Features are added incrementally.*
+
+## About The Project
+Raven Messenger is a fictional serverless chat application developed as an example. Powered by React, this web app connects to a REST API defined in the [infrastructure repository](https://github.com/barrymcandrews/raven-iac). 
 
 ## Available Scripts
 
