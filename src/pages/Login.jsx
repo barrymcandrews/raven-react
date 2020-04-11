@@ -43,19 +43,23 @@ export default function Login({authState}) {
     <div id="login-cont" className="vertical-center-container">
       <div className="centered vertical-center horizontal-center-sm">
         <div className="text-md">Log In</div>
-        <div id="msg-label" className="text-sm error">{messsage}</div>
-        <div>
-          <div className="row">
-            <span className="text-sm">Username:</span>
-            <input type="text" onChange={(event) => setUsername(event.target.value)}/>
-          </div>
-          <div className="row">
-            <span className="text-sm">Password:</span>
-            <input type="password" onChange={(event) => setPassword(event.target.value)}/>
-          </div>
-          <button onClick={() => logIn()}>Log In</button>
-          <button onClick={() => history.replace('/signup')}>Create New Account</button>
-        </div>
+        <div className="msg-label text-sm error">{messsage}</div>
+        <table>
+          <tr>
+            <th><span className="text-sm">Username:</span></th>
+            <td><input type="text" onChange={(event) => setUsername(event.target.value)}/></td>
+          </tr>
+          <tr>
+            <th><span className="text-sm">Password:</span></th>
+            <td><input type="password" onChange={(event) => setPassword(event.target.value)}/></td>
+          </tr>
+          <tr>
+            <td colSpan={2}>
+              <button onClick={() => logIn()}>Log In</button>
+              <button onClick={() => history.replace('/signup')}>Create New Account</button>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   );

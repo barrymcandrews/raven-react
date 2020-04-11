@@ -31,7 +31,6 @@ function Router() {
           <PrivateRoute authState={authState} exact path="/rooms" children={<Rooms/>}/>
           <PrivateRoute authState={authState} exact path="/rooms/:roomName" children={<Chat/>}/>
         </Switch>
-        {/*<Footer/>*/}
       </Authenticator>
     </BrowserRouter>
   );

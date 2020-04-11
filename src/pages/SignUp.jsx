@@ -41,25 +41,29 @@ export default function SignUp({signIn}) {
 
   return (
     <div id="login-cont" className="vertical-center-container">
-      <div className="centered vertical-center horizontal-center-sm">
+      <div className="centered login-body">
         <div className="text-md">Sign Up</div>
-        <div id="msg-label" className="text-sm error">{messsage}</div>
-        <div>
-          <div className="row">
-            <span className="text-sm">Username:</span>
-            <input type="text" onChange={(event) => setUsername(event.target.value)}/>
-          </div>
-          <div className="row">
-            <span className="text-sm">Email:</span>
-            <input type="text" onChange={(event) => setEmail(event.target.value)}/>
-          </div>
-          <div className="row">
-            <span className="text-sm">Password:</span>
-            <input type="password" onChange={(event) => setPassword(event.target.value)}/>
-          </div>
-          <button onClick={createNewAccount}>Create New Account</button>
-          <div className="text-sm">Already have an account? <Link to="/login">Log In</Link></div>
-        </div>
+        <div className="msg-label text-sm error">{messsage}</div>
+        <table>
+          <tr>
+            <th><span className="text-sm">Username:</span></th>
+            <td><input type="text" onChange={(event) => setUsername(event.target.value)}/></td>
+          </tr>
+          <tr>
+            <th><span className="text-sm">Email:</span></th>
+            <td><input type="text" onChange={(event) => setEmail(event.target.value)}/></td>
+          </tr>
+          <tr>
+            <th><span className="text-sm">Password:</span></th>
+            <td><input type="password" onChange={(event) => setPassword(event.target.value)}/></td>
+          </tr>
+          <tr>
+            <td colSpan={2}>
+              <button onClick={createNewAccount}>Create New Account</button>
+              <div className="text-sm">Already have an account? <Link to="/login">Log In</Link></div>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   );

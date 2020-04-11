@@ -29,7 +29,7 @@ img {
   color: red !important;
 }
 
-.seleted {
+.selected {
   font-weight: bold;
 }
 
@@ -114,21 +114,28 @@ img {
 
 .centered {
   position: absolute;
+  transform: translate(-50%, -50%);
+
   left: 50%;
   top: 50%;
 
-  transform: translate(-50%, -50%);
+  //@media only screen and (max-width: 600px) {
+  //  width: 90%;
+  //}
 }
 
 // Row
 
-.row {
+.login-row {
   display: block;
   width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
 
   span {
 	display: inline-block;
 	width: 62px;
+    margin-right: 5px !important;
   }
 }
 
@@ -163,8 +170,7 @@ input, textarea {
 }
 
 input {
-  width: 200px;
-  margin-right: 20px;
+  min-width: 200px;
 }
 
 textarea {
@@ -302,16 +308,16 @@ textarea {
 	margin-top: 20px;
 	margin-bottom: 20px;
   }
-
-  .text-sm {
-	margin-bottom: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-  }
 }
 
-#msg-label {
-  min-height: 17px;
+.msg-label {
+  margin: 10px;
+}
+
+.login-body {
+  border: solid white 2px;
+  text-align: center;
+  min-width: 340px;
 }
 
 // Index
@@ -341,7 +347,15 @@ textarea {
   margin-bottom: 20px;
 }
 
+th span {
+  margin-left: 5px;
+}
 
+th {
+  text-align: right;
+}
 
-
+table {
+  width: 100%;
+}
 
