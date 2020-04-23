@@ -121,14 +121,16 @@ img {
 
 .centered {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform:translate(-50%, -50%);
 
   left: 50%;
   top: 50%;
 
-  //@media only screen and (max-width: 600px) {
-  //  width: 90%;
-  //}
+  @media only screen and (max-width: 500px) {
+    left: 1px;
+    right: 0;
+    transform: translate(0, -50%);
+  }
 }
 
 // Row
@@ -324,7 +326,6 @@ textarea {
 .login-body {
   border: solid white 2px;
   text-align: center;
-  min-width: 340px;
 }
 
 // Index
