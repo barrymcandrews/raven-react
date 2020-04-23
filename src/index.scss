@@ -94,7 +94,6 @@ img {
 // Centering
 
 @mixin horizontal-center($width) {
-  border: solid white 2px;
   max-width: $width;
   margin-left: auto;
   margin-right: auto;
@@ -330,9 +329,10 @@ textarea {
 
 // Index
 
-#main-content {
-  margin-top: 20px;
-  margin-bottom: 20px;
+.main-content {
+  border: solid white 2px;
+  margin: 20px 10px;
+  padding: 10px;
 
   h3, p {
 	margin-left: 10px;

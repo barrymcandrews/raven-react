@@ -47,9 +47,11 @@ export default function Verify() {
   return (
     <div id="login-cont" className="vertical-center-container">
       <div className="centered vertical-center horizontal-center-sm">
-        <div className="text-md">Verify</div>
-        <div id="msg-label" className="text-sm">{message}</div>
-        {content}
+        <div className="main-content">
+          <div className="text-md">Verify</div>
+          <p id="msg-label" className="text-sm">{message}</p>
+          {content}
+        </div>
       </div>
     </div>
   );

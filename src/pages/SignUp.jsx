@@ -41,9 +41,9 @@ export default function SignUp({signIn}) {
 
   return (
     <div id="login-cont" className="vertical-center-container">
-      <div className="centered login-body">
+      <div className="centered login-body main-content">
         <div className="text-md">Sign Up</div>
-        <div className="msg-label text-sm error">{messsage}</div>
+        <p className="msg-label text-sm error">{messsage}</p>
         <table>
           <tr>
             <th><span className="text-sm">Username:</span></th>

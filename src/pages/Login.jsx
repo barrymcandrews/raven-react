@@ -42,24 +42,26 @@ export default function Login({authState}) {
   return (
     <div id="login-cont" className="vertical-center-container">
       <div className="centered vertical-center horizontal-center-sm">
-        <div className="text-md">Log In</div>
-        <div className="msg-label text-sm error">{messsage}</div>
-        <table>
-          <tr>
-            <th><span className="text-sm">Username:</span></th>
-            <td><input type="text" onChange={(event) => setUsername(event.target.value)}/></td>
-          </tr>
-          <tr>
-            <th><span className="text-sm">Password:</span></th>
-            <td><input type="password" onChange={(event) => setPassword(event.target.value)}/></td>
-          </tr>
-          <tr>
-            <td colSpan={2}>
-              <button onClick={() => logIn()}>Log In</button>
-              <button onClick={() => history.replace('/signup')}>Create New Account</button>
-            </td>
-          </tr>
-        </table>
+        <div className="main-content">
+          <div className="text-md">Log In</div>
+          <p className="msg-label text-sm error">{messsage}</p>
+          <table>
+            <tr>
+              <th><span className="text-sm">Username:</span></th>
+              <td><input type="text" onChange={(event) => setUsername(event.target.value)}/></td>
+            </tr>
+            <tr>
+              <th><span className="text-sm">Password:</span></th>
+              <td><input type="password" onChange={(event) => setPassword(event.target.value)}/></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>
+                <button onClick={() => logIn()}>Log In</button>
+                <button onClick={() => history.replace('/signup')}>Create New Account</button>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   );
