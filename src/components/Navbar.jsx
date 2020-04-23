@@ -1,14 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 export default function Navbar({ authState, authData }) {
   const signedInItems = () => [
-    <div key="nb-name" className="navbar-item">Hello, {authData.username}.</div>,
-    <Link key="nb-logout" className="navbar-item" to="/logout">Log Out</Link>
+    <span key="nb-name" className="navbar-username">Hello, {authData.username}.</span>,
+    <Link key="nb-logout" to="/logout">Log Out</Link>
   ];
 
   const signedOutItems = () => [
-    <Link key="nb-login" className="navbar-item" to="/login">Log In</Link>
+    <Link key="nb-login" to="/login">Log In</Link>
   ];
 
   const navbarRight = (authState === 'signedIn') ? signedInItems() : signedOutItems();
@@ -17,11 +17,10 @@ export default function Navbar({ authState, authData }) {
       <Link to="/"><div className="navbar-img"/></Link>
 
 			<div className="navbar-content">
-				<Link className="navbar-item" to="/">Home</Link>
-				<Link className="navbar-item" to="/rooms">Rooms</Link>  {/* Removed selected page highlight */}
-        <div className="navbar-item-right" >
-          {navbarRight}
-        </div>
+				<NavLink className="navbar-item" exact activeClassName="selected" to="/">Home</NavLink>
+				<NavLink className="navbar-item" activeClassName="selected" to="/rooms">Rooms</NavLink>
+				<div className="navbar-placeholder"/>
+        <div className="navbar-item" children={navbarRight}/>
 			</div>
 		</div>
 	);

@@ -54,7 +54,6 @@ img {
 .navbar {
   line-height: 1;
   font-size: 30px;
-  padding-bottom: 10px;
   border-bottom: solid 0.5px rgba(255, 255, 255, 0.7);
 
   .navbar-img {
@@ -64,22 +63,31 @@ img {
   }
 
   .navbar-content {
-	padding-left: 10px;
-	padding-right: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+	//padding-left: 10px;
+	//padding-right: 10px;
   }
 
   .navbar-item {
 	vertical-align: center;
-	font-size: 14px;
+	font-size: 18px;
 	display: inline-block;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin: 15px;
   }
 
-  .navbar-item-right {
-	display: inline-block;
-	position: absolute;
-	right: 10px;
+  .navbar-username {
+    margin: 10px;
+    @media all and (max-width: 500px) {
+      display: none;
+    }
+  }
+
+  .navbar-placeholder {
+    flex: 1;
   }
 }
 
