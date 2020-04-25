@@ -7,15 +7,15 @@ import Amplify from 'aws-amplify';
 
   Amplify.configure({
   Auth: {
-    userPoolId: 'us-east-1_k68EMR7ff',
-    userPoolWebClientId: '46ogpbruml4j8ggb611ais359s',
+    userPoolId: 'us-east-1_XRj8Hgtje',
+    userPoolWebClientId: '1b70rbnqrr76bpqbo8jlgk95rj',
     region: 'us-east-1',
   },
     API: {
       endpoints: [
         {
           name: "RavenApi",
-          endpoint: "https://y4tfnpxnp1.execute-api.us-east-1.amazonaws.com/prod/"
+          endpoint: "https://v2gj1wek7f.execute-api.us-east-1.amazonaws.com/prod/"
         },
       ]
     }
