@@ -153,6 +153,7 @@ img {
 textarea, select, input, button { outline: none; }
 
 button, input, textarea {
+  padding: 5px;
   margin: 5px;
   font-family: PxSans, serif;
   font-size: 8px;
@@ -311,7 +312,7 @@ textarea {
 
 // Login
 
-#login-cont {
+form {
   .text-md, button {
 	margin-top: 20px;
 	margin-bottom: 20px;

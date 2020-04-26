@@ -11,9 +11,9 @@ export function AppContextProvider(props) {
 
   useEffect(() => {
     Auth.currentUserInfo()
-      .then(user => {
-        setUsername(user ? user.username : '');
-      });
+      .then(user => setUsername(user.username)
+      ).catch(e => setUsername('')
+    );
   }, [authState]);
 
   useEffect(() => {
@@ -21,7 +21,10 @@ export function AppContextProvider(props) {
       .then(session => {
         setIdToken(session.getIdToken().getJwtToken());
         setAccessToken(session.getAccessToken().getJwtToken());
-      });
+      }).catch(e => {
+      setIdToken('');
+      setAccessToken('');
+    });
   }, [authState]);
 
   const context = {idToken, username, accessToken, authState, setAuthState};

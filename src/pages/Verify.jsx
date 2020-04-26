@@ -44,8 +44,13 @@ export default function Verify() {
     <button onClick={() => {history.replace('/login')}}>Go to Login Page</button>
   );
 
+  function onSubmit(e) {
+    e.preventDefault();
+    verify();
+  }
+
   return (
-    <div id="login-cont" className="vertical-center-container">
+    <form onSubmit={onSubmit} className="vertical-center-container">
       <div className="centered vertical-center horizontal-center-sm">
         <div className="main-content">
           <div className="text-md">Verify</div>
@@ -53,7 +58,7 @@ export default function Verify() {
           {content}
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 

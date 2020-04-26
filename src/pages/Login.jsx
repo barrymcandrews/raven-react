@@ -37,33 +37,40 @@ export default function Login({authState}) {
       });
   }
 
+  function onSubmit(e) {
+    e.preventDefault();
+    logIn();
+  }
+
   if (authState === 'signedIn') history.replace('/');
 
   return (
-    <div id="login-cont" className="vertical-center-container">
+    <form onSubmit={onSubmit} className="vertical-center-container">
       <div className="centered vertical-center horizontal-center-sm">
         <div className="main-content">
           <div className="text-md">Log In</div>
           <p className="msg-label text-sm error">{messsage}</p>
           <table>
-            <tr>
-              <th><span className="text-sm">Username:</span></th>
-              <td><input type="text" onChange={(event) => setUsername(event.target.value)}/></td>
-            </tr>
-            <tr>
-              <th><span className="text-sm">Password:</span></th>
-              <td><input type="password" onChange={(event) => setPassword(event.target.value)}/></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>
-                <button onClick={() => logIn()}>Log In</button>
-                <button onClick={() => history.replace('/signup')}>Create New Account</button>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <th><span className="text-sm">Username:</span></th>
+                <td><input type="text" onChange={(event) => setUsername(event.target.value)}/></td>
+              </tr>
+              <tr>
+                <th><span className="text-sm">Password:</span></th>
+                <td><input type="password" onChange={(event) => setPassword(event.target.value)}/></td>
+              </tr>
+              <tr>
+                <td colSpan={2}>
+                  <button onClick={() => logIn()}>Log In</button>
+                  <button onClick={() => history.replace('/signup')}>Create New Account</button>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 
