@@ -14,6 +14,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "react-singleton-hook": "^2.2.103",
+    "react-use-websocket": "^1.7.3",
     "tailwindcss": "^1.2.0"
   },
   "scripts": {

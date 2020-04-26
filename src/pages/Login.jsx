@@ -27,8 +27,8 @@ export default function Login({authState}) {
   function logIn() {
     Auth.signIn(username, password)
       .then((user) => {
-        history.replace(from);
         Hub.dispatch('auth', { event: 'cognitoHostedUI', data: user }, 'Auth');
+        history.replace(from);
       })
       .catch((err) => {
         if (err.code === 'UserNotConfirmedException') history.replace('/verify-user/' + username);

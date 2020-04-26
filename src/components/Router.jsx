@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import Navbar from './Navbar';
 import {
   Switch,
@@ -14,9 +14,10 @@ import Rooms from '../pages/Rooms';
 import {Authenticator} from 'aws-amplify-react';
 import {Auth} from 'aws-amplify';
 import Verify from "../pages/Verify";
+import {AppContext} from "./AppContext";
 
 function Router() {
-  const [authState, setAuthState] = useState('loading');
+  const {authState, setAuthState} = useContext(AppContext);
 
   return (
     <BrowserRouter>

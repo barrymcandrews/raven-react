@@ -235,7 +235,6 @@ textarea {
 .list {
   font-family: PxSans, serif;
   font-size: 8px;
-  background-color: white;
   color: black;
   height: 100%;
 
@@ -368,3 +367,32 @@ table {
   width: 100%;
 }
 
+// Chat
+
+.flex {
+  width: 100%;
+  display: flex;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.legacy-box {
+  width: 500px;
+  padding: 5px;
+  background-color: #bfbfbf;
+  border: 2px solid #a6a6a6;
+  border-bottom-color: #444;
+  border-right-color: #444;
+}
+
+body > div {
+  height: 100%;
+}
+
+body > div > div {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}

@@ -4,18 +4,19 @@ import './index.scss';
 import Router from './components/Router';
 import * as serviceWorker from './serviceWorker';
 import Amplify from 'aws-amplify';
+import {AppContextProvider} from "./components/AppContext";
 
-  Amplify.configure({
+Amplify.configure({
   Auth: {
-    userPoolId: 'us-east-1_XRj8Hgtje',
-    userPoolWebClientId: '1b70rbnqrr76bpqbo8jlgk95rj',
+    userPoolId: process.env.REACT_APP_USER_POOL_ID,
+    userPoolWebClientId: process.env.REACT_APP_USER_POOL_CLIENT_ID,
     region: 'us-east-1',
   },
     API: {
       endpoints: [
         {
           name: "RavenApi",
-          endpoint: "https://v2gj1wek7f.execute-api.us-east-1.amazonaws.com/prod/"
+          endpoint: process.env.REACT_APP_REST_ENDPOINT,
         },
       ]
     }
@@ -23,7 +24,9 @@ import Amplify from 'aws-amplify';
 
 ReactDOM.render(
 	<React.StrictMode>
-    <Router />
+    <AppContextProvider>
+      <Router />
+    </AppContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
