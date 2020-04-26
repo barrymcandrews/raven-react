@@ -153,6 +153,7 @@ img {
 textarea, select, input, button { outline: none; }
 
 button, input, textarea {
+  border-radius: 0;
   padding: 5px;
   margin: 5px;
   font-family: PxSans, serif;
