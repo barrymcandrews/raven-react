@@ -63,6 +63,13 @@ export default function Chat() {
     }));
   }
 
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      send();
+      e.preventDefault();
+    }
+  }
+
   return (
   <div className="flex">
     <div className="legacy-box">
@@ -89,7 +96,7 @@ export default function Chat() {
         </div>
 
         <div className="list-footer">
-          <textarea id="msg-textarea" value={message} onChange={e => setMessage(e.target.value)} placeholder="Type your message here..."/>
+          <textarea id="msg-textarea" onChange={e => setMessage(e.target.value)} onKeyPress={handleKeyPress} value={message}  placeholder="Type your message here..."/>
           <button disabled={message === ''} onClick={() => send()}>Send</button>
         </div>
       </div>
