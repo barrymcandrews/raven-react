@@ -54,7 +54,7 @@ export default function Login({authState}) {
 
           <div className="input-label text-sm">Username:</div>
           <div className="flex-row">
-            <input type="text" autoComplete="username" onChange={(event) => setUsername(event.target.value)}/>
+            <input type="text" autoCapitalize="off" autoComplete="username" onChange={(event) => setUsername(event.target.value)}/>
           </div>
 
           <div className="input-label text-sm">Password:</div>

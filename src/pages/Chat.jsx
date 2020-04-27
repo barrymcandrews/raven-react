@@ -31,7 +31,7 @@ export default function Chat() {
   const [sendMessage, lastMessage, readyState, getWebSocket] = useWebSocket(socketUrl, STATIC_OPTIONS);
   const [messageHistory, setMessageHistory] = useState([]);
   const [message, setMessage] = useState('');
-  const messagesEndRef = useRef(null)
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (lastMessage !== null) {

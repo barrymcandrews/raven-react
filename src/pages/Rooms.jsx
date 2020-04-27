@@ -87,7 +87,7 @@ export default function Rooms() {
 
   return (
     <div className="flex">
-      <div className="w-500 legacy-box">
+      <div className="p-b-10 w-500 legacy-box">
         <div className="list">
           <div className="list-header">
             <span>Chat Rooms</span>

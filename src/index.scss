@@ -229,14 +229,14 @@ textarea {
 	color: black;
   }
 
-  .list-header{
+  .list-header {
 	font-size: 10px;
 	font-weight: bold;
 	background-color: #bfbfbf;
 	justify-content: space-between;
     margin-bottom: 5px;
 
-	span {
+    span {
 	  margin-left: 5px;
 	}
 
@@ -250,6 +250,7 @@ textarea {
 	@extend .list-header;
 	height: 80px;
 	padding: 0;
+    margin-bottom: 0;
 
 	button, textarea {
 	  margin: 0;
@@ -376,6 +377,11 @@ table {
   margin: 20px 10px;
   color: black;
   font-family: PxSans, serif;
+
+  @media screen and (max-width: 500px) {
+    border: none;
+    margin: 0;
+  }
 }
 
 body > div {
@@ -409,6 +415,11 @@ body > div > div {
 
 .bar-button {
   padding: 3px 15px;
+}
+
+.p-b-10 {
+  //TODO: Remove this. Replace List CSS with Flexboxes
+  padding-bottom: 10px;
 }
 
 .overlay {
