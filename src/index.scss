@@ -42,11 +42,35 @@ img {
 }
 
 .text-sm {
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .hidden {
   display: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.m-5 {
+  margin: 5px;
+}
+
+.w-375 {
+  width: 375px;
+}
+
+.w-500 {
+  width: 500px;
+}
+
+.w-200 {
+  width: 200px;
+}
+
+.f-px-sans {
+  font-family: PxSans, serif;
 }
 
 // Navbar
@@ -91,61 +115,16 @@ img {
   }
 }
 
-// Centering
+// Login
 
-@mixin horizontal-center($width) {
-  max-width: $width;
-  margin-left: auto;
-  margin-right: auto;
+.login-button {
+  padding: 9px 45px;
+  font-size: 10px;
 }
 
-.horizontal-center-sm {
-  @include horizontal-center(400px);
-}
-
-.horizontal-center-md {
-  @include horizontal-center(500px);
-}
-
-.vertical-center-container {
-  //min-height: 100vh;
-}
-
-.vertical-center {
-  margin: auto;
-  position: relative;
-  top: 50%;
-  transform: translateY(50%);
-  text-align: center;
-}
-
-.centered {
-  position: absolute;
-  transform:translate(-50%, -50%);
-
-  left: 50%;
-  top: 50%;
-
-  @media only screen and (max-width: 500px) {
-    left: 1px;
-    right: 0;
-    transform: translate(0, -50%);
-  }
-}
-
-// Row
-
-.login-row {
-  display: block;
-  width: 100%;
-  margin-left: 10px;
-  margin-right: 10px;
-
-  span {
-	display: inline-block;
-	width: 62px;
-    margin-right: 5px !important;
-  }
+.login-btn-sm {
+  padding: 6px 30px;
+  font-size: 10px;
 }
 
 // Inputs & Buttons
@@ -157,11 +136,11 @@ button, input, textarea {
   padding: 5px;
   margin: 5px;
   font-family: PxSans, serif;
-  font-size: 8px;
+  font-size: 10px;
 }
 
 button {
-  padding: 3px 15px;
+  padding: 6px 30px;
   border: 2px solid #a6a6a6;
   border-right-color: #444;
   border-bottom-color: #444;
@@ -236,7 +215,7 @@ textarea {
 
 .list {
   font-family: PxSans, serif;
-  font-size: 8px;
+  font-size: 10px;
   color: black;
   height: 100%;
 
@@ -251,10 +230,11 @@ textarea {
   }
 
   .list-header{
-	font-size: 9px;
+	font-size: 10px;
 	font-weight: bold;
 	background-color: #bfbfbf;
 	justify-content: space-between;
+    margin-bottom: 5px;
 
 	span {
 	  margin-left: 5px;
@@ -272,12 +252,15 @@ textarea {
 	padding: 0;
 
 	button, textarea {
-	  height: 60px;
+	  margin: 0;
+      height: 60px;
 	}
 
 	textarea {
+      height: 46px;
 	  flex-grow: 2;
-	}
+      margin-right: 5px;
+    }
   }
 
   .list-button:hover {
@@ -327,6 +310,10 @@ form {
 .login-body {
   border: solid white 2px;
   text-align: center;
+}
+
+.input-label {
+  margin: 15px 5px 0;
 }
 
 // Index
@@ -381,12 +368,14 @@ table {
 }
 
 .legacy-box {
-  width: 500px;
   padding: 5px;
   background-color: #bfbfbf;
   border: 2px solid #a6a6a6;
   border-bottom-color: #444;
   border-right-color: #444;
+  margin: 20px 10px;
+  color: black;
+  font-family: PxSans, serif;
 }
 
 body > div {
@@ -397,4 +386,78 @@ body > div > div {
   height: 100%;
   display: flex;
   flex-flow: column;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  input {
+    flex-grow: 1;
+  }
+}
+
+.flex-col {
+  display: flex;
+  flex-flow: column;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.bar-button {
+  padding: 3px 15px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.flex-center {
+  justify-content: center;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.modal {
+  .legacy-box {
+    padding: 0;
+  }
+
+  p {
+    font-size: 10px;
+  }
+
+  button, input, p {
+    margin: 10px;
+  }
+}
+
+.title-bar {
+  height: 30px;
+  background: linear-gradient(90deg, #0007ff, #c70aff);
+}
+
+.divider {
+  height: 1px;
+  background: #a6a6a6;
+}
+
+.hide-sm {
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+}
+
+.token {
+  overflow-wrap: break-word;
 }

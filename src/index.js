@@ -5,6 +5,8 @@ import Router from './components/Router';
 import * as serviceWorker from './serviceWorker';
 import Amplify from 'aws-amplify';
 import {AppContextProvider} from "./components/AppContext";
+import {ModalProvider} from "react-modal-hook";
+import Modal from 'react-modal';
 
 Amplify.configure({
   Auth: {
@@ -22,10 +24,13 @@ Amplify.configure({
     }
 });
 
+Modal.setAppElement('#root');
 ReactDOM.render(
 	<React.StrictMode>
     <AppContextProvider>
-      <Router />
+      <ModalProvider>
+        <Router />
+      </ModalProvider>
     </AppContextProvider>
   </React.StrictMode>,
   document.getElementById('root')

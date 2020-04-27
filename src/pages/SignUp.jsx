@@ -20,11 +20,17 @@ export default function SignUp({signIn}) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [messsage, setMessage] = useState('');
 
   let history = useHistory();
 
   function createNewAccount() {
+    if (confirmPassword !== password) {
+      setMessage('Passwords do not match.');
+      return;
+    }
+
     Auth.signUp({
       username: username,
       password: password,
@@ -45,32 +51,37 @@ export default function SignUp({signIn}) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="vertical-center-container">
-      <div className="centered login-body main-content">
-        <div className="text-md">Sign Up</div>
-        <p className="msg-label text-sm error">{messsage}</p>
-        <table>
-          <tbody>
-            <tr>
-              <th><span className="text-sm">Username:</span></th>
-              <td><input type="text" onChange={(event) => setUsername(event.target.value)}/></td>
-            </tr>
-            <tr>
-              <th><span className="text-sm">Email:</span></th>
-              <td><input type="text" onChange={(event) => setEmail(event.target.value)}/></td>
-            </tr>
-            <tr>
-              <th><span className="text-sm">Password:</span></th>
-              <td><input type="password" onChange={(event) => setPassword(event.target.value)}/></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>
-                <button onClick={createNewAccount}>Create New Account</button>
-                <div className="text-sm">Already have an account? <Link to="/login">Log In</Link></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <form onSubmit={onSubmit} autoComplete="on" className="flex">
+      <div className="w-375 flex-col">
+        <div className="main-content">
+          <div className="text-center text-md">Sign Up</div>
+          <p className="text-center msg-label text-sm error">{messsage}</p>
+
+          <div className="input-label text-sm">Username:</div>
+          <div className="flex-row">
+            <input type="text" autoComplete="username" onChange={(event) => setUsername(event.target.value)}/>
+          </div>
+
+          <div className="input-label text-sm">Email:</div>
+          <div className="flex-row">
+            <input type="text" autoComplete="email" onChange={(event) => setEmail(event.target.value)}/>
+          </div>
+
+          <div className="input-label text-sm">Password:</div>
+          <div className="flex-row">
+            <input type="password" autoComplete="new-password" onChange={(event) => setPassword(event.target.value)}/>
+          </div>
+
+          <div className="input-label text-sm">Confirm Password:</div>
+          <div className="flex-row">
+            <input type="password" autoComplete="new-password" onChange={(event) => setConfirmPassword(event.target.value)}/>
+          </div>
+
+          <div className="flex-row">
+            <button className="login-button" onClick={createNewAccount}>Create New Account</button>
+          </div>
+          <div className="m-5 text-center text-sm">Already have an account? <Link to="/login">Log In</Link></div>
+        </div>
       </div>
     </form>
   );

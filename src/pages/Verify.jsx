@@ -18,6 +18,8 @@ export default function Verify() {
      .then(() => {
        setConfirmed(true);
        setMessage('Your account has been confirmed. To continue return to the login page.')
+     }).catch(e => {
+       setMessage('An unknown error occurred.');
      });
   }
 
@@ -33,15 +35,19 @@ export default function Verify() {
 
   const content = (!isConfirmed) ? (
     <div>
-      <div className="row">
-        <span className="text-sm">Code:</span>
-        <input type="text" onChange={(event) => setCode(event.target.value)}/>
+      <div className="input-label text-sm">Code:</div>
+      <div className="flex-row">
+        <input type="text" autoComplete="one-time-code" onChange={(event) => setCode(event.target.value)}/>
       </div>
-      <button onClick={verify}>Verify</button>
-      <button onClick={resendCode}>Resend Code</button>
+      <div className="flex-row">
+        <button className="login-btn-sm" onClick={verify}>Verify</button>
+        <button className="login-btn-sm" onClick={resendCode}>Resend Code</button>
+      </div>
     </div>
   ) : (
-    <button onClick={() => {history.replace('/login')}}>Go to Login Page</button>
+    <div className="flex-row">
+      <button className="login-btn-sm" onClick={() => {history.replace('/login')}}>Go to Login Page</button>
+    </div>
   );
 
   function onSubmit(e) {
@@ -50,11 +56,11 @@ export default function Verify() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="vertical-center-container">
-      <div className="centered vertical-center horizontal-center-sm">
+    <form onSubmit={onSubmit} autoComplete='on' className="flex">
+      <div className="w-375 flex-col">
         <div className="main-content">
-          <div className="text-md">Verify</div>
-          <p id="msg-label" className="text-sm">{message}</p>
+          <div className="text-center text-md">Verify</div>
+          <p className="text-center text-sm">{message}</p>
           {content}
         </div>
       </div>

@@ -2,6 +2,8 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {API} from "aws-amplify";
 import {AppContext} from "../components/AppContext";
+import ReactModal from "react-modal";
+import {useModal} from "react-modal-hook";
 
 export default function Rooms() {
 
@@ -11,6 +13,7 @@ export default function Rooms() {
 
   const [newRoomName, setNewRoomName] = useState('');
   const [createdRooms, setCreatedRooms] = useState(0);
+  const [modalErrorText, setModalErrorText] = useState('');
 
   const { idToken, username } = useContext(AppContext);
 
@@ -27,13 +30,19 @@ export default function Rooms() {
     }
   }, [idToken, createdRooms]);
 
-
   const createRoom = () => {
     API.post('RavenApi', '/v1/rooms', {
       headers: {Authorization: idToken},
       body: {name: newRoomName}
+    }).then(() => {
+      setCreatedRooms(createdRooms + 1);
+      hideModal();
     })
-      .then(() => setCreatedRooms(createdRooms + 1))
+      .catch(error => {
+        console.log(error);
+        console.log(JSON.stringify(error));
+        setModalErrorText('Unable to create the room.');
+      });
   };
 
   const deleteRoom = (name) => {
@@ -42,6 +51,30 @@ export default function Rooms() {
     })
       .then(() => setCreatedRooms(createdRooms - 1))
   };
+
+
+  const [showModal, hideModal] = useModal(() => (
+    <ReactModal isOpen className="flex modal" overlayClassName="overlay">
+      <div className="flex-row">
+        <div className="flex-col flex-center">
+          <div className="legacy-box">
+            <div className="flex-row title-bar">
+            </div>
+            <p>Enter a name for your new room. The name must be unique.</p>
+            {modalErrorText !== '' && <p className="error">{modalErrorText}</p>}
+            <div className="flex-row">
+              <input placeholder="my-room-name" onChange={e => setNewRoomName(e.target.value)}/>
+            </div>
+            <div className="divider"/>
+            <div className="flex-row flex-end">
+              <button className="login-btn-sm" onClick={() => createRoom()}>Create</button>
+              <button className="login-btn-sm" onClick={hideModal}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ReactModal>
+  ), [modalErrorText, newRoomName]);
 
   const roomsList = () => {
     return rooms.map((room, index) => (
@@ -56,14 +89,12 @@ export default function Rooms() {
 
   return (
     <div className="flex">
-      <div className="legacy-box">
+      <div className="w-500 legacy-box">
         <div className="list">
           <div className="list-header">
             <span>Chat Rooms</span>
             <span>
-            <input onChange={(e) => setNewRoomName(e.target.value)}
-                   id="room-name" type="text" placeholder="Group Name"/>
-            <button onClick={() => createRoom()}>New Chat Room</button>
+            <button className="bar-button" onClick={showModal}>New Chat Room</button>
           </span>
           </div>
           <div id="list-item-target" className="scroll-container">

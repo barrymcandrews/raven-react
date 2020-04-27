@@ -12,6 +12,8 @@
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-modal": "^3.11.2",
+    "react-modal-hook": "^3.0.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-singleton-hook": "^2.2.103",

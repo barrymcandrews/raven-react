@@ -56,15 +56,16 @@ export default function Chat() {
   }[readyState];
 
   function send() {
-    setMessage('');
     sendMessage(JSON.stringify({
       action: "message",
       message: message,
     }));
+    console.log(message);
+    setMessage('');
   }
 
   function handleKeyPress(e) {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       send();
       e.preventDefault();
     }
@@ -72,7 +73,7 @@ export default function Chat() {
 
   return (
   <div className="flex">
-    <div className="legacy-box">
+    <div className="w-500 legacy-box">
       <div className="list">
         <div className="list-header">
           <span>{roomName}</span>
@@ -87,7 +88,7 @@ export default function Chat() {
               <div className={'message-sender ' + (message.sender === username && 'current-user')}>
                 {message.sender}
               </div>
-              <div className="message-content">{message.message}</div>
+              <code className="message-content">{message.message}</code>
             </div>
               :
               <div className="list-placeholder">{message.message}</div>
@@ -97,7 +98,7 @@ export default function Chat() {
 
         <div className="list-footer">
           <textarea id="msg-textarea" onChange={e => setMessage(e.target.value)} onKeyPress={handleKeyPress} value={message}  placeholder="Type your message here..."/>
-          <button disabled={message === ''} onClick={() => send()}>Send</button>
+          <button className="bar-button" disabled={message === ''} onClick={() => send()}>Send</button>
         </div>
       </div>
     </div>

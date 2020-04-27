@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Auth, Hub} from 'aws-amplify'
 import {
+  Link,
   useHistory,
   useLocation,
 } from "react-router-dom";
@@ -45,29 +46,27 @@ export default function Login({authState}) {
   if (authState === 'signedIn') history.replace('/');
 
   return (
-    <form onSubmit={onSubmit} className="vertical-center-container">
-      <div className="centered vertical-center horizontal-center-sm">
+    <form onSubmit={onSubmit} autoComplete="on" className="flex">
+      <div className="w-375 flex-col">
         <div className="main-content">
-          <div className="text-md">Log In</div>
-          <p className="msg-label text-sm error">{messsage}</p>
-          <table>
-            <tbody>
-              <tr>
-                <th><span className="text-sm">Username:</span></th>
-                <td><input type="text" onChange={(event) => setUsername(event.target.value)}/></td>
-              </tr>
-              <tr>
-                <th><span className="text-sm">Password:</span></th>
-                <td><input type="password" onChange={(event) => setPassword(event.target.value)}/></td>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <button onClick={() => logIn()}>Log In</button>
-                  <button onClick={() => history.replace('/signup')}>Create New Account</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="text-center text-md">Log In</div>
+          <p className="text-center msg-label text-sm error">{messsage}</p>
+
+          <div className="input-label text-sm">Username:</div>
+          <div className="flex-row">
+            <input type="text" autoComplete="username" onChange={(event) => setUsername(event.target.value)}/>
+          </div>
+
+          <div className="input-label text-sm">Password:</div>
+          <div className="flex-row">
+            <input type="password" autoComplete="current-password" onChange={(event) => setPassword(event.target.value)}/>
+          </div>
+
+          <div className="flex-row">
+            <button className="login-button" onClick={() => logIn()}>Log In</button>
+          </div>
+          <div className="m-5 text-center text-sm">Don't have an account? <Link to="/signup">Create one!</Link></div>
+
         </div>
       </div>
     </form>
