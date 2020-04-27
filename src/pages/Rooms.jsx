@@ -39,8 +39,6 @@ export default function Rooms() {
       hideModal();
     })
       .catch(error => {
-        console.log(error);
-        console.log(JSON.stringify(error));
         setModalErrorText('Unable to create the room.');
       });
   };
