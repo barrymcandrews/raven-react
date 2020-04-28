@@ -21,7 +21,7 @@ export default function Chat() {
       return true;
     },
     reconnectAttempts: 10,
-    reconnectInterval: 10000,
+    reconnectInterval: 40000,
   }), []);
 
   useEffect(() => {

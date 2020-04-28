@@ -10,6 +10,7 @@ export function useViewportHeight() {
 
     window.visualViewport.addEventListener('resize', viewportChanged);
 
+    // eslint-disable-next-line no-unused-vars
     function cleanup() {
       window.visualViewport.removeEventListener('resize', viewportChanged);
     }

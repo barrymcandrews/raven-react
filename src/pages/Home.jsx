@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
-import {Auth} from "aws-amplify";
 
 export default function Home() {
   // useEffect(() => {document.title = 'Home - Raven Messenger'});
-  const [jwt, setJwt] = useState('');
+  // const [jwt, setJwt] = useState('');
 
-  Auth.currentSession()
-    .then(session => {
-      setJwt(session.getAccessToken().getJwtToken());
-    }).catch(e => setJwt(''));
+  // Auth.currentSession()
+  //   .then(session => {
+  //     setJwt(session.getAccessToken().getJwtToken());
+  //   }).catch(e => setJwt(''));
 
   return (
 		<div className="flex">
