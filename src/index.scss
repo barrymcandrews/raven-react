@@ -378,7 +378,9 @@ table {
   margin: 20px 10px;
   color: black;
   font-family: PxSans, serif;
+}
 
+.legacy-no-borders-sm {
   @media screen and (max-width: 500px) {
     border: none;
     margin: 0;

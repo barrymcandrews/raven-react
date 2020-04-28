@@ -94,7 +94,7 @@ export default function Chat() {
   return (
   <div className="flex">
     {iOS && st}
-    <div className="w-500 legacy-box">
+    <div className="w-500 legacy-box legacy-no-borders-sm">
       <div className="list">
         <div className="list-header">
           <span>{roomName}</span>
