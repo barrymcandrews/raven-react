@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {AppContext} from "../components/AppContext";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import {useViewportHeight} from "../hooks";
 
 const websocketEndpoint = process.env.REACT_APP_WEBSOCKET_ENDPOINT;
 const wsUrl = (roomName, accessToken) =>
@@ -71,8 +72,28 @@ export default function Chat() {
     }
   }
 
+  //TODO: Refactor this hack-y way of dealing with the iOS on-screen-keyboard
+  // See https://blog.opendigerati.com/the-eccentric-ways-of-ios-safari-with-the-keyboard-b5aa3f34228d
+  const {viewportHeight} = useViewportHeight();
+  let iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  let height = (!iOS) ? '100%' : `${viewportHeight}px`;
+  let st = (
+    <style type="text/css">
+      {`body > div {
+        height: ${height};
+        transition: height 0.4s ease;
+        width: auto;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }`}
+    </style>
+  );
+
   return (
   <div className="flex">
+    {iOS && st}
     <div className="w-500 legacy-box">
       <div className="list">
         <div className="list-header">
