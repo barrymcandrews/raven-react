@@ -102,7 +102,7 @@ export default function Chat() {
         </div>
 
         <div className="scroll-container scroll-container-messages">
-          {/*{isLoading & <div className="list-placeholder">Loading messages...</div>}*/}
+          <div className="list-placeholder">Welcome to the room. New messages will appear here. </div>
           {messageHistory.map((message, idx) =>
             message.sender !== '$server' ?
             <div key={idx} className="list-item">
