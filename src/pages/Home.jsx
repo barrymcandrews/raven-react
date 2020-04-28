@@ -39,13 +39,13 @@ export default function Home() {
               Click <Link to="/rooms">here</Link> to go to the chat rooms.</p>
           </div>
 
-          {process.env.NODE_ENV !== 'production' &&
-            <div className="main-content">
-              <h3>Development Information</h3>
-              <p>Access Token:</p>
-              <p className="token">{jwt}</p>
-            </div>
-          }
+          {/*{process.env.NODE_ENV !== 'production' &&*/}
+          {/*  <div className="main-content">*/}
+          {/*    <h3>Development Information</h3>*/}
+          {/*    <p>Access Token:</p>*/}
+          {/*    <p className="token">{jwt}</p>*/}
+          {/*  </div>*/}
+          {/*}*/}
 
         </div>
       </div>
