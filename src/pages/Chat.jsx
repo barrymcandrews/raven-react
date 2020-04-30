@@ -3,8 +3,6 @@ import {Link, useParams} from "react-router-dom";
 import {AppContext} from "../components/AppContext";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import {useViewportHeight} from "../hooks";
-import {useHistory} from 'react-router-dom';
-import Navbar from "../components/Navbar";
 
 const websocketEndpoint = process.env.REACT_APP_WEBSOCKET_ENDPOINT;
 const wsUrl = (roomName, accessToken) =>
@@ -35,7 +33,6 @@ export default function Chat() {
   const [messageHistory, setMessageHistory] = useState([]);
   const [message, setMessage] = useState('');
   const messagesEndRef = useRef(null);
-  const history = useHistory();
 
   useEffect(() => {
     if (lastMessage !== null) {
