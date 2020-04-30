@@ -7,6 +7,7 @@ import Amplify from 'aws-amplify';
 import {AppContextProvider} from "./components/AppContext";
 import {ModalProvider} from "react-modal-hook";
 import Modal from 'react-modal';
+import ReactGA from 'react-ga';
 
 Amplify.configure({
   Auth: {
@@ -23,6 +24,11 @@ Amplify.configure({
       ]
     }
 });
+
+if (process.env.NODE_ENV === 'production') {
+  ReactGA.initialize('UA-73066517-2');
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
 
 Modal.setAppElement('#root');
 ReactDOM.render(
