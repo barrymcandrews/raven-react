@@ -1,8 +1,10 @@
 import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {AppContext} from "../components/AppContext";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import {useViewportHeight} from "../hooks";
+import {useHistory} from 'react-router-dom';
+import Navbar from "../components/Navbar";
 
 const websocketEndpoint = process.env.REACT_APP_WEBSOCKET_ENDPOINT;
 const wsUrl = (roomName, accessToken) =>
@@ -21,7 +23,7 @@ export default function Chat() {
       return true;
     },
     reconnectAttempts: 10,
-    reconnectInterval: 40000,
+    reconnectInterval: 20000,
   }), []);
 
   useEffect(() => {
@@ -33,6 +35,7 @@ export default function Chat() {
   const [messageHistory, setMessageHistory] = useState([]);
   const [message, setMessage] = useState('');
   const messagesEndRef = useRef(null);
+  const history = useHistory();
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -67,7 +70,7 @@ export default function Chat() {
 
   function handleKeyPress(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
-      send();
+      if (message !== '') send();
       e.preventDefault();
     }
   }
@@ -92,11 +95,12 @@ export default function Chat() {
   );
 
   return (
-  <div className="flex">
+    <div className="flex">
     {iOS && st}
     <div className="w-500 legacy-box legacy-no-borders-sm">
       <div className="list">
         <div className="list-header">
+          <Link to='/rooms'><button className="bar-button">&lt; Back</button></Link>
           <span>{roomName}</span>
           <span>{connectionStatus}</span>
         </div>
@@ -118,7 +122,7 @@ export default function Chat() {
         </div>
 
         <div className="list-footer">
-          <textarea id="msg-textarea" onChange={e => setMessage(e.target.value)} onKeyPress={handleKeyPress} value={message}  placeholder="Type your message here..."/>
+          <textarea  id="msg-textarea" onChange={e => setMessage(e.target.value)} onKeyPress={handleKeyPress} value={message}  placeholder="Type your message here..."/>
           <button className="bar-button" disabled={message === ''} onClick={() => send()}>Send</button>
         </div>
       </div>
