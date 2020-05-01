@@ -5,7 +5,6 @@ export default function Home() {
   return (
 		<div className="flex-grow-0 flex">
       <div className="flex-row">
-        <div className="grid"></div>
         {/* Center Content */}
         <div className="w-375 flex-col">
           <div className="main-content flex-grow-1">
