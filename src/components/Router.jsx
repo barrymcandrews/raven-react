@@ -24,7 +24,7 @@ function Router() {
       <Authenticator hideDefault={true} onStateChange={setAuthState}>
         <Navbar/>
         <Switch>
-          <Route exact path="/" children={<Home/>}/>
+          <Route exact path="/" children={<Home authState={authState}/>}/>
           <Route exact path="/signup" children={<SignUp/>}/>
           <Route exact path="/verify-user/:username" children={<Verify/>}/>
           <Route exact path="/login" children={<Login authState={authState}/>}/>

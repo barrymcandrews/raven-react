@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-export default function Home() {
+export default function Home({authState}) {
+  const signedIn = (authState === 'signedIn');
   return (
 		<div className="flex-grow-0 flex">
       <div className="flex-row">
@@ -25,23 +26,21 @@ export default function Home() {
 
               {/*<div className="flex-grow-1"></div>*/}
 
-              <div className="flex-row mar-top-10">
-                <Link to="/rooms" className="welcome-button"><button>Log In</button></Link>
-              </div>
-              <div className="flex-row mar-bot-10">
-                <Link to="/signup" className="welcome-button"><button>Sign Up</button></Link>
+              <div className="welcome-button-group">
+                <div className="flex-row">
+                  <Link to="/rooms" className="welcome-button"><button>
+                    {signedIn ? 'Start Chatting' : 'Log In'}
+                  </button></Link>
+                </div>
+
+                {!signedIn &&
+                  <div className="flex-row">
+                    <Link to="/signup" className="welcome-button"><button>Sign Up</button></Link>
+                  </div>
+                }
               </div>
             </div>
           </div>
-
-          {/*{process.env.NODE_ENV !== 'production' &&*/}
-          {/*  <div className="main-content">*/}
-          {/*    <h3>Development Information</h3>*/}
-          {/*    <p>Access Token:</p>*/}
-          {/*    <p className="token">{jwt}</p>*/}
-          {/*  </div>*/}
-          {/*}*/}
-
         </div>
       </div>
     </div>
