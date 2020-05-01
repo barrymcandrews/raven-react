@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 export default function Home() {
   return (
-		<div className="flex">
+		<div className="flex-grow-0 flex">
       <div className="flex-row">
         <div className="grid"></div>
         {/* Center Content */}
@@ -17,16 +17,16 @@ export default function Home() {
                 <img className="small-content" height={100} width={100} src="/static/img/raven-glitched.png" alt="raven.png"/>
               </div>
 
-              <div className="flex-col flex-center flex-grow-1">
-                <p>With Raven Messenger you can:</p>
-                <div className="small-content"><h4>chat with strangers online</h4></div>
-                <div className="small-content"><h4>make new friends (or enemies)</h4></div>
-                <div className="small-content"><h4>stay young forever</h4></div>
-              </div>
+              {/*<div className="flex-col flex-center flex-grow-1">*/}
+              {/*  <p>With Raven Messenger you can:</p>*/}
+              {/*  <div className="small-content"><h4>chat with strangers online</h4></div>*/}
+              {/*  <div className="small-content"><h4>make new friends (or enemies)</h4></div>*/}
+              {/*  <div className="small-content"><h4>stay young forever</h4></div>*/}
+              {/*</div>*/}
 
-              <div className="flex-grow-1"></div>
+              {/*<div className="flex-grow-1"></div>*/}
 
-              <div className="flex-row">
+              <div className="flex-row mar-top-10">
                 <Link to="/rooms" className="welcome-button"><button>Log In</button></Link>
               </div>
               <div className="flex-row mar-bot-10">

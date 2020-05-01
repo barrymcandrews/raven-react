@@ -339,7 +339,12 @@ form {
 	border-top: solid 2px white;
     max-width: 99vw;
   }
-}
+
+  @supports (-webkit-touch-callout: none) {
+    margin-bottom: 100px;
+  }
+
+  }
 
 .small-content {
   border: solid white 2px;
@@ -429,6 +434,10 @@ body > div > div {
   flex-grow: 1;
 }
 
+.flex-grow-0 {
+  flex-grow: 0;
+}
+
 .bar-button {
   padding: 3px 15px;
 }
@@ -504,4 +513,7 @@ body > div > div {
 
 .mar-bot-10 {
   margin-bottom: 10px;
+}
+.mar-top-10 {
+  margin-top: 10px;
 }
