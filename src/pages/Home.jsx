@@ -2,40 +2,37 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 export default function Home() {
-  // useEffect(() => {document.title = 'Home - Raven Messenger'});
-  // const [jwt, setJwt] = useState('');
-
-  // Auth.currentSession()
-  //   .then(session => {
-  //     setJwt(session.getAccessToken().getJwtToken());
-  //   }).catch(e => setJwt(''));
-
   return (
 		<div className="flex">
       <div className="flex-row">
+        <div className="grid"></div>
+        {/* Center Content */}
+        <div className="w-375 flex-col">
+          <div className="main-content flex-grow-1">
+            <div className="flex-col  h-100 text-center">
+              <h2>Welcome to Raven Messenger</h2>
+              <p>Raven is the retro chat app for 2020.</p>
 
-        {/* Left Sidebar */}
-        <div className="hide-sm flex-col">
-          <div className="w-200 flex-grow-1 legacy-box">
-            <div className="list">
-              <div className="list-header">
-                <span>Currently Online</span>
+              <div className="flex-row">
+                <img className="small-content" height={100} width={100} src="/static/img/raven-glitched.png" alt="raven.png"/>
               </div>
 
-              <div className="scroll-container">
-                <div className="list-placeholder">This feature has not yet been implemented.</div>
+              <div className="flex-col flex-center flex-grow-1">
+                <p>With Raven Messenger you can:</p>
+                <div className="small-content"><h4>chat with strangers online</h4></div>
+                <div className="small-content"><h4>make new friends (or enemies)</h4></div>
+                <div className="small-content"><h4>stay young forever</h4></div>
+              </div>
+
+              <div className="flex-grow-1"></div>
+
+              <div className="flex-row">
+                <Link to="/rooms" className="welcome-button"><button>Log In</button></Link>
+              </div>
+              <div className="flex-row mar-bot-10">
+                <Link to="/signup" className="welcome-button"><button>Sign Up</button></Link>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Center Content */}
-        <div className="w-500 flex-col">
-          <div className="main-content">
-            <h3>Welcome to Raven Messenger</h3>
-            <p><i>This demo is not yet finished! Come back soon. I'm almost done.</i></p>
-            <p>You can use this site to chat with strangers across the world wide web.
-              Click <Link to="/rooms">here</Link> to go to the chat rooms.</p>
           </div>
 
           {/*{process.env.NODE_ENV !== 'production' &&*/}

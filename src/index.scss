@@ -25,6 +25,10 @@ img {
   display: block;
 }
 
+h4 {
+  margin: 5px;
+}
+
 .error {
   color: red !important;
 }
@@ -325,16 +329,23 @@ form {
   border: solid white 2px;
   margin: 20px 10px;
   padding: 10px;
+  background: black;
 
   h3, p {
-	margin-left: 10px;
-	margin-right: 10px;
+	margin: 10px;
   }
 
   img {
 	border-top: solid 2px white;
     max-width: 99vw;
   }
+}
+
+.small-content {
+  border: solid white 2px;
+  margin: 5px 10px;
+  //text-align: center;
+  //padding: 10px;
 }
 
 // Footer
@@ -476,4 +487,21 @@ body > div > div {
 
 .token {
   overflow-wrap: break-word;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.welcome-button {
+  flex-grow: 1;
+  padding: 5px 20px;
+  button {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+
+.mar-bot-10 {
+  margin-bottom: 10px;
 }
