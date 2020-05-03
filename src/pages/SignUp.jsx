@@ -1,84 +1,106 @@
 import React, {useState} from 'react';
 import {Auth} from 'aws-amplify'
-import {
-  useHistory
-} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {Link} from 'react-router-dom';
-
-
-const errorMap = {
-  UserNotConfirmedException: 'User is not confirmed.',
-  PasswordResetRequiredException: 'Password must be reset before login.',
-  NotAuthorizedException: 'Username or password incorrect.',
-  UserNotFoundException: 'Username or password incorrect.',
-  InvalidPasswordException: 'Password not strong enough.',
-  UsernameExistsException: 'A user with that username already exists.',
-  AuthError: 'Username can not be empty.',
-};
+import {useFormik} from "formik";
+import * as Yup from 'yup';
 
 export default function SignUp({signIn}) {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [messsage, setMessage] = useState('');
+  const [message, setMessage] = useState('');
 
   let history = useHistory();
 
-  function createNewAccount() {
-    if (confirmPassword !== password) {
-      setMessage('Passwords do not match.');
-      return;
-    }
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+    },
+    validationSchema: Yup.object({
+      username: Yup.string()
+        .required('Username is required.'),
+      email: Yup.string()
+        .email('Email is invalid.')
+        .required('Email is required.'),
+      password: Yup.string()
+        .required('Password is required.')
+        .matches(/^.{8,}$/, 'Password must be at least 8 characters.')
+        .matches(/^.*[A-Z].*$/, 'Password must contain an uppercase letter.')
+        .matches(/^.*[a-z].*$/, 'Password must contain an lowercase letter.')
+        .matches(/^.*[0-9].*$/, 'Password must contain a number.')
+        .matches(/^.*[@$!%*#?&].*$/, 'Password must contain one these symbols: @$!%*#?&'),
+      passwordConfirmation: Yup.string()
+        .required('You must confirm your password.')
+        .oneOf([Yup.ref('password'), null], 'Passwords must match.'),
+    }),
+    onSubmit: handleSubmit,
+  });
 
+  function handleSubmit(values) {
     Auth.signUp({
-      username: username,
-      password: password,
-      attributes: {email: email}
-    })
-      .then((result) => {
-        history.replace('/verify-user/' + username);
-      })
-      .catch((err) => {
-        const message = (err.code in errorMap) ? errorMap[err.code] : 'An unknown error occurred.';
-        setMessage(message);
-      });
-  }
-
-  function onSubmit(e) {
-    e.preventDefault();
-    createNewAccount();
+      username: values.username,
+      password: values.password,
+      attributes: {email: values.email}
+    }).then((result) => {
+        history.replace('/verify-user/' + values.username);
+    }).catch((err) => {
+      if (err.name === 'UsernameExistsException') {
+        formik.errors.username = 'A user with that username already exists.';
+      } else {
+        console.log(err);
+        setMessage('An unknown error occurred.');
+      }
+      formik.setSubmitting(false);
+    });
   }
 
   return (
-    <form onSubmit={onSubmit} autoComplete="on" className="flex">
+    <form onSubmit={formik.handleSubmit} autoComplete="on" className="flex">
       <div className="w-375 flex-col">
         <div className="main-content">
           <div className="text-center text-md">Sign Up</div>
-          <p className="text-center msg-label text-sm error">{messsage}</p>
+          <p className="text-center msg-label text-sm error">{message}</p>
 
           <div className="input-label text-sm">Username:</div>
           <div className="flex-row">
-            <input type="text" autoCapitalize="off" autoComplete="username" onChange={(event) => setUsername(event.target.value)}/>
+            <input
+              autoComplete="username"
+              type="text"
+              autoCapitalize="off"
+              {...formik.getFieldProps('username')}
+            />
           </div>
+          {formik.touched.username && formik.errors.username &&
+            <p className="hint-label error">{formik.errors.username}</p>
+          }
 
           <div className="input-label text-sm">Email:</div>
           <div className="flex-row">
-            <input type="text" autoComplete="email" onChange={(event) => setEmail(event.target.value)}/>
+            <input autoComplete="email" type="text" {...formik.getFieldProps('email')}/>
           </div>
+          {formik.touched.email && formik.errors.email &&
+            <p className="hint-label error">{formik.errors.email}</p>
+          }
 
           <div className="input-label text-sm">Password:</div>
           <div className="flex-row">
-            <input type="password" autoComplete="new-password" onChange={(event) => setPassword(event.target.value)}/>
+            <input type="password" autoComplete="new-password" {...formik.getFieldProps('password')}/>
           </div>
+          {formik.touched.password && formik.errors.password &&
+            <p className="hint-label error">{formik.errors.password}</p>
+          }
 
           <div className="input-label text-sm">Confirm Password:</div>
           <div className="flex-row">
-            <input type="password" autoComplete="new-password" onChange={(event) => setConfirmPassword(event.target.value)}/>
+            <input type="password" autoComplete="new-password" {...formik.getFieldProps('passwordConfirmation')}/>
           </div>
+          {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation &&
+            <p className="hint-label error">{formik.errors.passwordConfirmation}</p>
+          }
 
           <div className="flex-row">
-            <button className="login-button" onClick={createNewAccount}>Create New Account</button>
+            <button className="login-button" type="submit">Create New Account</button>
           </div>
           <div className="m-5 text-center text-sm">Already have an account? <Link to="/login">Log In</Link></div>
         </div>

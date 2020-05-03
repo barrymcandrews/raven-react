@@ -9,6 +9,7 @@
     "aws-amplify": "^2.2.7",
     "aws-amplify-react": "^3.1.8",
     "fetch-suspense": "^1.2.2",
+    "formik": "^2.1.4",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -19,7 +20,8 @@
     "react-scripts": "3.4.1",
     "react-singleton-hook": "^2.2.103",
     "react-use-websocket": "^1.7.3",
-    "tailwindcss": "^1.2.0"
+    "tailwindcss": "^1.2.0",
+    "yup": "^0.28.5"
   },
   "scripts": {
     "start": "react-scripts start",
