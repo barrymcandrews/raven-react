@@ -1,63 +1,46 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link} from "react-router-dom";
-import {API} from "aws-amplify";
 import {AppContext} from "../components/AppContext";
 import ReactModal from "react-modal";
 import {useModal} from "react-modal-hook";
+import {useFetch} from "use-http";
 
 export default function Rooms() {
 
-  const [rooms, setRooms] = useState([]);
-  const [hasError, setError] = useState(false);
-  const [isLoading, setLoading] = useState(true);
-
   const [newRoomName, setNewRoomName] = useState('');
-  const [createdRooms, setCreatedRooms] = useState(0);
   const [modalErrorText, setModalErrorText] = useState('');
+  const [rooms, setRooms] = useState([]);
 
-  const { idToken, username } = useContext(AppContext);
+  const { username } = useContext(AppContext);
+  const { loading, error } = useFetch('/rooms', {
+    onNewData: (c, n) => setRooms(n),
+    retries: 1,
+  }, []);
+  const { post, del, response } = useFetch('/rooms');
 
-  useEffect(() => {
-    if (idToken !== '') {
-      API.get('RavenApi', '/v1/rooms', {
-        headers: {Authorization: idToken}
-      })
-        .then(resp => {
-          setLoading(false);
-          setRooms(resp);
-        })
-        .catch(err => setError(true));
-    }
-  }, [idToken, createdRooms]);
-
-  const createRoom = () => {
-    API.post('RavenApi', '/v1/rooms', {
-      headers: {Authorization: idToken},
-      body: {name: newRoomName}
-    }).then(() => {
-      setCreatedRooms(createdRooms + 1);
+  async function createRoom() {
+    await post({name: newRoomName});
+    if (response.ok) {
+      setRooms(rooms => rooms.concat([{name: newRoomName, creator: username}]))
       hideModal();
-    })
-      .catch(error => {
-        setModalErrorText('Unable to create the room.');
-      });
-  };
+    } else {
+      setModalErrorText('Unable to create the room.');
+    }
+  }
 
-  const deleteRoom = (name) => {
-    API.del('RavenApi', `/v1/rooms/${name}`, {
-      headers: {Authorization: idToken},
-    })
-      .then(() => setCreatedRooms(createdRooms - 1))
-  };
-
+  async function deleteRoom(name) {
+    await del(name);
+    if (response.ok) {
+      setRooms(rooms => rooms.filter(r => r.name !== name));
+    }
+  }
 
   const [showModal, hideModal] = useModal(() => (
     <ReactModal isOpen className="flex modal" overlayClassName="overlay">
       <div className="flex-row">
         <div className="flex-col flex-center">
           <div className="legacy-box">
-            <div className="flex-row title-bar">
-            </div>
+            <div className="flex-row title-bar"/>
             <p>Enter a name for your new room. The name must be unique.</p>
             {modalErrorText !== '' && <p className="error">{modalErrorText}</p>}
             <div className="flex-row">
@@ -96,17 +79,13 @@ export default function Rooms() {
           </span>
           </div>
           <div id="list-item-target" className="scroll-container">
-            {hasError && <div className="error list-placeholder">Unable to load rooms.</div>}
-            {isLoading && <div className="list-placeholder">Loading rooms...</div>}
-            {(rooms.length === 0 && !isLoading) && <div className="list-placeholder">No rooms.</div>}
+            {error && <div className="error list-placeholder">Unable to load rooms.</div>}
+            {loading && <div className="list-placeholder">Loading rooms...</div>}
+            {rooms.length === 0 && !loading && !error && <div className="list-placeholder">No rooms.</div>}
             {roomsList()}
           </div>
         </div>
       </div>
     </div>
   );
-
 }
-
-
-
