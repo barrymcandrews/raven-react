@@ -15,24 +15,35 @@ import {Authenticator} from 'aws-amplify-react';
 import {Auth} from 'aws-amplify';
 import Verify from "../pages/Verify";
 import {AppContext} from "./AppContext";
+import {Provider as HttpProvider} from "use-http";
 
 function Router() {
   const {authState, setAuthState} = useContext(AppContext);
+  const options = {
+    interceptors: {
+      request: async ({ options, url, path, route }) => {
+        options.headers.Authorization = (await Auth.currentSession()).getIdToken().getJwtToken()
+        return options
+      }
+    }
+  };
 
   return (
     <BrowserRouter>
-      <Authenticator hideDefault={true} onStateChange={setAuthState}>
-        <Navbar/>
-        <Switch>
-          <Route exact path="/" children={<Home authState={authState}/>}/>
-          <Route exact path="/signup" children={<SignUp/>}/>
-          <Route exact path="/verify-user/:username" children={<Verify/>}/>
-          <Route exact path="/login" children={<Login authState={authState}/>}/>
-          <Route exact path="/logout" children={<Logout/>}/>
-          <PrivateRoute authState={authState} exact path="/rooms" children={<Rooms/>}/>
-          <PrivateRoute authState={authState} exact path="/rooms/:roomName" children={<Chat/>}/>
-        </Switch>
-      </Authenticator>
+      <HttpProvider url={process.env.REACT_APP_REST_ENDPOINT + '/v1'} options={options}>
+        <Authenticator hideDefault={true} onStateChange={setAuthState}>
+          <Navbar/>
+          <Switch>
+            <Route exact path="/" children={<Home authState={authState}/>}/>
+            <Route exact path="/signup" children={<SignUp/>}/>
+            <Route exact path="/verify-user/:username" children={<Verify/>}/>
+            <Route exact path="/login" children={<Login authState={authState}/>}/>
+            <Route exact path="/logout" children={<Logout/>}/>
+            <PrivateRoute authState={authState} exact path="/rooms" children={<Rooms/>}/>
+            <PrivateRoute authState={authState} exact path="/rooms/:roomName" children={<Chat/>}/>
+          </Switch>
+        </Authenticator>
+      </HttpProvider>
     </BrowserRouter>
   );
 }
