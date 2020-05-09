@@ -8,7 +8,6 @@
     "@testing-library/user-event": "^7.1.2",
     "aws-amplify": "^2.2.7",
     "aws-amplify-react": "^3.1.8",
-    "fetch-suspense": "^1.2.2",
     "formik": "^2.1.4",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
@@ -18,9 +17,8 @@
     "react-modal-hook": "^3.0.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "react-singleton-hook": "^2.2.103",
     "react-use-websocket": "^1.7.3",
-    "tailwindcss": "^1.2.0",
+    "use-http": "^1.0.10",
     "yup": "^0.28.5"
   },
   "scripts": {
@@ -45,7 +43,6 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^9.7.6",
-    "postcss-cli": "^7.1.0"
+    "autoprefixer": "^9.7.6"
   }
 }
