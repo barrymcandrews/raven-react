@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {AppContext} from "../components/AppContext";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
-import {useViewportHeight} from "../hooks";
+import {useViewportHeight} from "../hooks/use-viewport-height";
 
 const websocketEndpoint = process.env.REACT_APP_WEBSOCKET_ENDPOINT;
 const wsUrl = (roomName, accessToken) =>
