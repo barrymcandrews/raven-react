@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Auth, Hub} from 'aws-amplify'
 import {
-  Link,
+  Link, Redirect,
   useHistory,
   useLocation,
 } from "react-router-dom";
@@ -43,10 +43,9 @@ export default function Login({authState}) {
     logIn();
   }
 
-  if (authState === 'signedIn') history.replace('/');
-
   return (
     <form onSubmit={onSubmit} autoComplete="on" className="flex">
+      {authState === 'signedIn' && <Redirect to="/"/>}
       <div className="w-375 flex-col">
         <div className="main-content">
           <div className="text-center text-md">Log In</div>
