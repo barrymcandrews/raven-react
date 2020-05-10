@@ -12,7 +12,7 @@ export default function Rooms() {
   const [rooms, setRooms] = useState([]);
 
   const { username } = useContext(AppContext);
-  const { loading, error } = useFetch('/rooms', {
+  const { get, cache, loading, error } = useFetch('/rooms', {
     onNewData: (c, n) => setRooms(n),
     retries: 1,
   }, []);
@@ -21,7 +21,8 @@ export default function Rooms() {
   async function createRoom() {
     await post({name: newRoomName});
     if (response.ok) {
-      setRooms(rooms => rooms.concat([{name: newRoomName, creator: username}]))
+      cache.clear(true);
+      get();
       hideModal();
     } else {
       setModalErrorText('Unable to create the room.');
@@ -31,6 +32,7 @@ export default function Rooms() {
   async function deleteRoom(name) {
     await del(name);
     if (response.ok) {
+      cache.clear(true);
       setRooms(rooms => rooms.filter(r => r.name !== name));
     }
   }
@@ -80,7 +82,7 @@ export default function Rooms() {
           </div>
           <div id="list-item-target" className="scroll-container">
             {error && <div className="error list-placeholder">Unable to load rooms.</div>}
-            {loading && <div className="list-placeholder">Loading rooms...</div>}
+            {loading && rooms.length === 0 && <div className="list-placeholder">Loading rooms...</div>}
             {rooms.length === 0 && !loading && !error && <div className="list-placeholder">No rooms.</div>}
             {roomsList()}
           </div>
