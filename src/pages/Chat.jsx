@@ -1,8 +1,9 @@
-import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
+import React, { useContext, useEffect, useRef, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {AppContext} from "../components/AppContext";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import {useViewportHeight} from "../hooks/use-viewport-height";
+import {useFetch} from "use-http";
 
 const websocketEndpoint = process.env.REACT_APP_WEBSOCKET_ENDPOINT;
 const wsUrl = (roomName, accessToken) =>
@@ -12,55 +13,60 @@ const wsUrl = (roomName, accessToken) =>
 
 
 export default function Chat() {
+
   let { roomName } = useParams();
+  const encodedRoom = encodeURIComponent(roomName);
   const { accessToken, username } = useContext(AppContext);
-  const STATIC_OPTIONS = useMemo(() => ({
-    onOpen: () => console.log('Websocket connected.'),
+  const [message, setMessage] = useState('');
+  const [socketUrl, setSocketUrl] = useState(wsUrl(roomName, accessToken));
+  const [messageHistory, setMessageHistory] = useState(() => []);
+  const [noMoreMessages, setNoMoreMessages] = useState(false);
+  const {sendJsonMessage, lastJsonMessage, readyState, getWebSocket} = useWebSocket(socketUrl, {
+    reconnectAttempts: 10,
+    reconnectInterval: 20000,
     shouldReconnect: (closeEvent) => {
       console.log(closeEvent);
       return true;
     },
-    reconnectAttempts: 10,
-    reconnectInterval: 20000,
-  }), []);
+   });
 
+  const { get, loading, error } = useFetch(`/rooms/${encodedRoom}/messages`, {
+    onNewData: (currentData, newData) => setMessageHistory(prevState => {
+      console.log(newData);
+      if (newData.count === 0) setNoMoreMessages(true);
+      return [...prevState, ...newData.items];
+    }),
+    retries: 1,
+    cachePolicy: 'no-cache',
+  }, [roomName]);
+
+  // Set Socket URL
   useEffect(() => {
     setSocketUrl(wsUrl(roomName, accessToken));
   }, [roomName, accessToken]);
 
-  const [socketUrl, setSocketUrl] = useState(wsUrl(roomName, accessToken));
-  const [sendMessage, lastMessage, readyState, getWebSocket] = useWebSocket(socketUrl, STATIC_OPTIONS);
-  const [messageHistory, setMessageHistory] = useState([]);
-  const [message, setMessage] = useState('');
-  const messagesEndRef = useRef(null);
-
+  // Message Received
   useEffect(() => {
-    if (lastMessage !== null) {
-
-      const currentWebsocketUrl = getWebSocket().url;
-      console.log('received a message from ', currentWebsocketUrl);
-      const body = JSON.parse(lastMessage.data);
-      console.log(body);
-      setMessageHistory(prev => prev.concat(body));
+    if (lastJsonMessage !== null) {
+      console.log(lastJsonMessage);
+      setMessageHistory(prev => [lastJsonMessage, ...prev]);
     }
-  }, [getWebSocket, lastMessage]);
+  }, [getWebSocket, lastJsonMessage]);
 
-  useEffect(() => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-  }, [messageHistory]);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting...',
     [ReadyState.OPEN]: 'Connected.',
     [ReadyState.CLOSING]: 'Leaving...',
     [ReadyState.CLOSED]: 'Not connected.',
+    [ReadyState.UNINSTANTIATED]: 'Not connected.',
   }[readyState];
 
   function send() {
-    sendMessage(JSON.stringify({
+    sendJsonMessage({
       action: "message",
       message: message,
-    }));
+    });
     console.log(message);
     setMessage('');
   }
@@ -91,39 +97,47 @@ export default function Chat() {
     </style>
   );
 
+  function handleScroll(event) {
+    if (event.target.scrollTop <= 0 && !loading && !noMoreMessages) {
+      const lastMessage = messageHistory[messageHistory.length - 1];
+      get(`?before=${lastMessage.timeSent - 1}`);
+    }
+  }
+
   return (
     <div className="flex">
-    {iOS && st}
-    <div className="w-500 legacy-box legacy-no-borders-sm">
-      <div className="list">
-        <div className="list-header">
-          <Link to='/rooms'><button className="bar-button">&lt; Back</button></Link>
-          <span>{roomName}</span>
-          <span>{connectionStatus}</span>
-        </div>
+      {iOS && st}
+      <div className="w-500 legacy-box legacy-no-borders-sm">
+        <div className="list">
+          <div className="list-header">
+            <Link to='/rooms'><button className="bar-button">&lt; Back</button></Link>
+            <span>{roomName}</span>
+            <span>{connectionStatus}</span>
+          </div>
 
-        <div className="scroll-container scroll-container-messages">
-          <div className="list-placeholder">Welcome to the room. New messages will appear here. </div>
-          {messageHistory.map((message, idx) =>
-            message.sender !== '$server' ?
-            <div key={idx} className="list-item">
-              <div className={'message-sender ' + (message.sender === username && 'current-user')}>
-                {message.sender}
-              </div>
-              <code className="message-content">{message.message}</code>
-            </div>
-              :
-              <div className="list-placeholder">{message.message}</div>
-          )}
-          <div ref={messagesEndRef}/>
-        </div>
+          <div className="chat-container scroll-container scroll-container-messages" onScroll={handleScroll}>
+            {messageHistory.map((message, idx) =>
+              message.sender !== '$server' ?
+                <div key={idx} className="list-item">
+                  <div className={'message-sender ' + (message.sender === username && 'current-user')}>
+                    {message.sender}
+                  </div>
+                  <code className="message-content">{message.message}</code>
+                </div>
+                :
+                <div key={idx} className="list-placeholder">{message.message}</div>
+            )}
+            {error && <div className="list-placeholder error">Unable to load older messages.</div>}
+            {loading && <div className="list-placeholder">Loading older messages...</div>}
+            {noMoreMessages && <div className="list-placeholder">No more messages.</div>}
+          </div>
 
-        <div className="list-footer">
-          <textarea  id="msg-textarea" onChange={e => setMessage(e.target.value)} onKeyPress={handleKeyPress} value={message}  placeholder="Type your message here..."/>
-          <button className="bar-button" disabled={message === ''} onClick={() => send()}>Send</button>
+          <div className="list-footer">
+            <textarea  id="msg-textarea" onChange={e => setMessage(e.target.value)} onKeyPress={handleKeyPress} value={message}  placeholder="Type your message here..."/>
+            <button className="bar-button" disabled={message === ''} onClick={() => send()}>Send</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   );
 }

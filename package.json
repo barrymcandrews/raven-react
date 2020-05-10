@@ -17,7 +17,7 @@
     "react-modal-hook": "^3.0.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "react-use-websocket": "^1.7.3",
+    "react-use-websocket": "^2.0.1",
     "use-http": "^1.0.10",
     "yup": "^0.28.5"
   },
