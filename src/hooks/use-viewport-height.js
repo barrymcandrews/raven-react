@@ -1,18 +1,28 @@
 import {useEffect, useState} from "react";
 
+const getHeight = () => {
+  if (window.visualViewport) {
+    return window.visualViewport.height;
+  } else {
+    return window.innerHeight;
+  }
+}
+
 export function useViewportHeight() {
-  const [viewportHeight, setViewportHeight] = useState(window.visualViewport.height);
+  const [viewportHeight, setViewportHeight] = useState(getHeight);
 
   useEffect(() => {
     function viewportChanged(event) {
-      setViewportHeight(window.visualViewport.height);
+      setViewportHeight(getHeight);
     }
 
-    window.visualViewport.addEventListener('resize', viewportChanged);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', viewportChanged);
 
-    // eslint-disable-next-line no-unused-vars
-    function cleanup() {
-      window.visualViewport.removeEventListener('resize', viewportChanged);
+      // eslint-disable-next-line no-unused-vars
+      function cleanup() {
+        window.visualViewport.removeEventListener('resize', viewportChanged);
+      }
     }
   }, []);
 
