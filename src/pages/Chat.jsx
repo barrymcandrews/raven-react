@@ -81,7 +81,7 @@ export default function Chat() {
   //TODO: Refactor this hack-y way of dealing with the iOS on-screen-keyboard
   // See https://blog.opendigerati.com/the-eccentric-ways-of-ios-safari-with-the-keyboard-b5aa3f34228d
   const {viewportHeight} = useViewportHeight();
-  let iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   let height = (!iOS) ? '100%' : `${viewportHeight}px`;
   let st = (
     <style type="text/css">
@@ -98,7 +98,15 @@ export default function Chat() {
   );
 
   function handleScroll(event) {
-    if (event.target.scrollTop <= 0 && !loading && !noMoreMessages) {
+
+    //TODO: Remove this if Safari correctly implements scrollTop for flexboxes
+    const isSafari = navigator.userAgent.indexOf('Safari') !== -1
+      && navigator.userAgent.indexOf('Chrome') === -1;
+    const scrollTop = isSafari ?
+      event.target.scrollHeight - event.target.offsetHeight + event.target.scrollTop
+      : event.target.scrollTop;
+
+    if (scrollTop <= 0 && !loading && !noMoreMessages) {
       const lastMessage = messageHistory[messageHistory.length - 1];
       get(`?before=${lastMessage.timeSent - 1}`);
     }
