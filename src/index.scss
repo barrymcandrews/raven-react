@@ -285,9 +285,23 @@ textarea {
   }
 }
 
+.list-message {
+  display: flex;
+  justify-items: flex-start;
+  align-items: flex-start;
+  overflow-wrap:break-word;
+  margin: 10px;
+}
+
 .message-sender, .message-content {
   font-family: "Times", sans-serif;
   font-size: 16px;
+}
+
+.message-content {
+  flex-shrink: 1 !important;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
 .message-sender {
@@ -349,8 +363,6 @@ form {
 .small-content {
   border: solid white 2px;
   margin: 5px 10px;
-  //text-align: center;
-  //padding: 10px;
 }
 
 // Footer
@@ -464,6 +476,10 @@ body > div > div {
   justify-content: flex-end;
 }
 
+.flex-start {
+  justify-content: flex-start;
+}
+
 .modal {
   .legacy-box {
     padding: 0;
@@ -524,7 +540,6 @@ body > div > div {
 .chat-container {
   display: flex;
   flex-direction: column-reverse;
-  //justify-content: flex-end;
 
   * {
     flex-shrink: 0;

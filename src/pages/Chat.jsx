@@ -126,7 +126,7 @@ export default function Chat() {
           <div className="chat-container scroll-container scroll-container-messages" onScroll={handleScroll}>
             {messageHistory.map((message, idx) =>
               message.sender !== '$server' ?
-                <div key={idx} className="list-item">
+                <div key={idx} className="list-message">
                   <div className={'message-sender ' + (message.sender === username && 'current-user')}>
                     {message.sender}
                   </div>
