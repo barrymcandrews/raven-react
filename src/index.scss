@@ -222,6 +222,7 @@ textarea {
   font-size: 10px;
   color: black;
   height: 100%;
+  max-width: calc(100vw - 10px);
 
 
   .list-item, .list-header, .list-placeholder {
