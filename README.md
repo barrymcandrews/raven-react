@@ -20,6 +20,7 @@
 ## About The Project
 Raven Messenger is a fictional serverless chat application developed as an example. Powered by React, this web app connects to a REST API and a WebSocket API defined in the [infrastructure repository](https://github.com/barrymcandrews/raven-iac). 
 
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -37,11 +38,7 @@ You will also see any lint errors in the console.
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-# Deployment
+## Deployment
 The master branch of this project is automatically built and deployed to S3. In S3, it's hosted as a static website and served to [raven.bmcandrews.com](raven.bmcandrews.com) through AWS CloudFront.
 
