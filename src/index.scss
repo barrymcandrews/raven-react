@@ -303,6 +303,10 @@ textarea {
   flex-shrink: 1 !important;
   overflow-wrap: break-word;
   min-width: 0;
+
+  a {
+    color: rgb(0, 0, 255);
+  }
 }
 
 .message-sender {

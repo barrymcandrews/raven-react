@@ -3,7 +3,8 @@ import {Link, useParams} from "react-router-dom";
 import {AppContext} from "../components/AppContext";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import {useViewportHeight} from "../hooks/use-viewport-height";
-import {useFetch} from "use-http";
+import useFetch from "use-http";
+import {useMessageStore} from "../hooks/use-message-store";
 
 const websocketEndpoint = process.env.REACT_APP_WEBSOCKET_ENDPOINT;
 const wsUrl = (roomName, accessToken) =>
@@ -19,9 +20,9 @@ export default function Chat() {
   const { accessToken, username } = useContext(AppContext);
   const [message, setMessage] = useState('');
   const [socketUrl, setSocketUrl] = useState(wsUrl(roomName, accessToken));
-  const [messageHistory, setMessageHistory] = useState(() => []);
   const [noMoreMessages, setNoMoreMessages] = useState(false);
-  const {sendJsonMessage, lastJsonMessage, readyState, getWebSocket} = useWebSocket(socketUrl, {
+  const { messages, push, append } = useMessageStore();
+  const { sendJsonMessage, lastJsonMessage, readyState, getWebSocket } = useWebSocket(socketUrl, {
     reconnectAttempts: 10,
     reconnectInterval: 20000,
     shouldReconnect: (closeEvent) => {
@@ -31,11 +32,10 @@ export default function Chat() {
    });
 
   const { get, loading, error } = useFetch(`/rooms/${encodedRoom}/messages`, {
-    onNewData: (currentData, newData) => setMessageHistory(prevState => {
-      console.log(newData);
+    onNewData: (currentData, newData) => {
       if (newData.count === 0) setNoMoreMessages(true);
-      return [...prevState, ...newData.items];
-    }),
+      append(newData.items);
+    },
     retries: 1,
     cachePolicy: 'no-cache',
   }, [roomName]);
@@ -49,8 +49,9 @@ export default function Chat() {
   useEffect(() => {
     if (lastJsonMessage !== null) {
       console.log(lastJsonMessage);
-      setMessageHistory(prev => [lastJsonMessage, ...prev]);
+      push(lastJsonMessage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getWebSocket, lastJsonMessage]);
 
 
@@ -107,7 +108,7 @@ export default function Chat() {
       : event.target.scrollTop;
 
     if (scrollTop <= 0 && !loading && !noMoreMessages) {
-      const lastMessage = messageHistory[messageHistory.length - 1];
+      const lastMessage = messages[messages.length - 1];
       get(`?before=${lastMessage.timeSent - 1}`);
     }
   }
@@ -124,13 +125,13 @@ export default function Chat() {
           </div>
 
           <div className="chat-container scroll-container scroll-container-messages" onScroll={handleScroll}>
-            {messageHistory.map((message, idx) =>
+            {messages.map((message, idx) =>
               message.sender !== '$server' ?
                 <div key={idx} className="list-message">
                   <div className={'message-sender ' + (message.sender === username && 'current-user')}>
                     {message.sender}
                   </div>
-                  <code className="message-content">{message.message}</code>
+                  <div className="message-content" dangerouslySetInnerHTML={{ __html: message.sanitizedMessage}}/>
                 </div>
                 :
                 <div key={idx} className="list-placeholder">{message.message}</div>
