@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-export default function Home({authState}) {
+export default function Home({authState}: {authState: string}) {
   const signedIn = (authState === 'signedIn');
   return (
 		<div className="flex-grow-0 flex">

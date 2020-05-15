@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import {Auth} from 'aws-amplify'
 import {
   useHistory,
@@ -50,8 +50,8 @@ export default function Verify() {
     </div>
   );
 
-  function onSubmit(e) {
-    e.preventDefault();
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     verify();
   }
 

@@ -14,15 +14,7 @@ Amplify.configure({
     userPoolId: process.env.REACT_APP_USER_POOL_ID,
     userPoolWebClientId: process.env.REACT_APP_USER_POOL_CLIENT_ID,
     region: 'us-east-1',
-  },
-    API: {
-      endpoints: [
-        {
-          name: "RavenApi",
-          endpoint: process.env.REACT_APP_REST_ENDPOINT,
-        },
-      ]
-    }
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {

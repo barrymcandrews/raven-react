@@ -5,12 +5,19 @@ import {Link} from 'react-router-dom';
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 
-export default function SignUp({signIn}) {
+interface FormValues {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
+export default function SignUp() {
   const [message, setMessage] = useState('');
 
   let history = useHistory();
 
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
       username: '',
       email: '',
@@ -37,7 +44,7 @@ export default function SignUp({signIn}) {
     onSubmit: handleSubmit,
   });
 
-  function handleSubmit(values) {
+  function handleSubmit(values: FormValues) {
     Auth.signUp({
       username: values.username,
       password: values.password,
