@@ -7,27 +7,31 @@ export interface Message {
   roomName: string;
   timeSent: number;
   sender: string;
-  sanitizedMessage?: string;
+}
+
+export interface RenderedMessage extends Message {
+  __html: string;
 }
 
 export function useMessageStore() {
-  const [messages, setMessages] = useState<Message[]>(() => []);
+  const [messages, setMessages] = useState<RenderedMessage[]>(() => []);
 
-  function render(message: Message): Message {
-    const rendered = { ...message }
-    rendered.sanitizedMessage = sanitizeHtml(message.message, {
-      allowedTags: [ 'b', 'i', 'em', 'strong', 'u', 'del', 'a' ],
-      allowedAttributes: {
-        'a': [ 'href', 'rel', 'target'],
-      },
-      transformTags: {
-        'a': sanitizeHtml.simpleTransform('a', {
-          target: '_blank',
-          rel: 'noopener noreferrer',
-        })
-      }
-    });
-    return rendered;
+  function render(message: Message): RenderedMessage {
+    return {
+      ...message,
+      __html: sanitizeHtml(message.message, {
+        allowedTags: [ 'b', 'i', 'em', 'strong', 'u', 'del', 'a' ],
+        allowedAttributes: {
+          'a': [ 'href', 'rel', 'target'],
+        },
+        transformTags: {
+          'a': sanitizeHtml.simpleTransform('a', {
+            target: '_blank',
+            rel: 'noopener noreferrer',
+          })
+        }
+      })
+    };
   }
 
   function push(message: Message) {

@@ -133,7 +133,7 @@ export default function Chat() {
                   <div className={'message-sender ' + (message.sender === username && 'current-user')}>
                     {message.sender}
                   </div>
-                  <div className="message-content" dangerouslySetInnerHTML={{ __html: message.sanitizedMessage!}}/>
+                  <div className="message-content" dangerouslySetInnerHTML={message}/>
                 </div>
                 :
                 <div key={idx} className="list-placeholder">{message.message}</div>
