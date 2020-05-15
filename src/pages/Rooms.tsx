@@ -1,6 +1,5 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import {AppContext} from "../components/AppContext";
 import ReactModal from "react-modal";
 import {useModal} from "react-modal-hook";
 import {useFetch} from "use-http";
@@ -34,6 +33,25 @@ export default function Rooms() {
       setModalErrorText('Unable to create the room.');
     }
   }
+
+  const [roomToDelete, setRoomToDelete] = useState<string>('');
+   const [showDeleteModal, hideDeleteModal] = useModal(() => (
+    <ReactModal isOpen className="flex modal" overlayClassName="overlay">
+      <div className="flex-row">
+        <div className="flex-col flex-center">
+          <div className="legacy-box">
+            <div className="flex-row title-bar"/>
+            <p>Are you sure you want to delete the room {roomToDelete}?<br/><br/>All messages will be deleted. You cannot undo this action.</p>
+            <div className="divider"/>
+            <div className="flex-row flex-end">
+              <button className="login-btn-sm" onClick={() => {deleteRoom(roomToDelete); hideDeleteModal()}}>Yes, Delete</button>
+              <button className="login-btn-sm" onClick={hideDeleteModal}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ReactModal>
+  ), [roomToDelete]);
 
   async function deleteRoom(name: string) {
     setRooms(rooms => {
@@ -88,7 +106,7 @@ export default function Rooms() {
           }
           {room.canDelete && room.status === 'ready' &&
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a className="list-item" onClick={() => deleteRoom(room.name)} href="#">(Delete)</a>
+            <a className="list-item" onClick={() => {setRoomToDelete(room.name); showDeleteModal()}} href="#">(Delete)</a>
           }
         </div>
     ));
