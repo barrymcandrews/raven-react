@@ -272,7 +272,7 @@ textarea {
   .list-button:hover {
 	background-color: rgb(0,0,128);
 	color: white;
-	a {
+	a, .disabled {
 	  color: white;
 	}
   }
@@ -549,4 +549,8 @@ body > div > div {
   * {
     flex-shrink: 0;
   }
+}
+
+.disabled {
+  color: #7f7f7f;
 }

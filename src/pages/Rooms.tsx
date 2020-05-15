@@ -8,6 +8,8 @@ import {useFetch} from "use-http";
 interface Room {
   name: string;
   creator: string;
+  canDelete: boolean;
+  status?: 'ready'|'deleting'|'not_ready';
 }
 
 export default function Rooms() {
@@ -16,7 +18,6 @@ export default function Rooms() {
   const [modalErrorText, setModalErrorText] = useState('');
   const [rooms, setRooms] = useState<Room[]>([]);
 
-  const { username } = useContext(AppContext);
   const { get, cache, loading, error } = useFetch('/rooms', {
     onNewData: (c, n) => setRooms(n),
     retries: 1,
@@ -35,10 +36,18 @@ export default function Rooms() {
   }
 
   async function deleteRoom(name: string) {
+    setRooms(rooms => {
+      return rooms.map(room => {
+        return {
+          ...room,
+          status: room.name === name ? 'deleting' : room.status,
+        }
+      })
+    })
     await del(name);
     if (response.ok) {
       cache.clear();
-      setRooms(rooms => rooms.filter(r => r.name !== name));
+      get();
     }
   }
 
@@ -67,10 +76,20 @@ export default function Rooms() {
   const roomsList = () => {
     return rooms.map((room, index) => (
         <div key={`room-${index}`} className="list-item list-button">
-          <Link className="list-item" to={'/rooms/' + room.name}>{room.name}</Link>
-          {(username === room.creator) &&
+          {room.status === 'ready' &&
+            <Link className="list-item" to={'/rooms/' + room.name}>{room.name}</Link>
+          }
+          {room.status !== 'ready' &&
+          <u className="list-item disabled">{room.name}</u>
+          }
+
+          {room.status === 'deleting' &&
+            <u className="list-item disabled">(Deleting...)</u>
+          }
+          {room.canDelete && room.status === 'ready' &&
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a className="list-item" onClick={() => deleteRoom(room.name)} href="#">(Delete)</a>}
+            <a className="list-item" onClick={() => deleteRoom(room.name)} href="#">(Delete)</a>
+          }
         </div>
     ));
   };
