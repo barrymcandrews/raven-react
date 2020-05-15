@@ -5,11 +5,16 @@ import ReactModal from "react-modal";
 import {useModal} from "react-modal-hook";
 import {useFetch} from "use-http";
 
+interface Room {
+  name: string;
+  creator: string;
+}
+
 export default function Rooms() {
 
   const [newRoomName, setNewRoomName] = useState('');
   const [modalErrorText, setModalErrorText] = useState('');
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
 
   const { username } = useContext(AppContext);
   const { get, cache, loading, error } = useFetch('/rooms', {
@@ -21,7 +26,7 @@ export default function Rooms() {
   async function createRoom() {
     await post({name: newRoomName});
     if (response.ok) {
-      cache.clear(true);
+      cache.clear();
       get();
       hideModal();
     } else {
@@ -29,10 +34,10 @@ export default function Rooms() {
     }
   }
 
-  async function deleteRoom(name) {
+  async function deleteRoom(name: string) {
     await del(name);
     if (response.ok) {
-      cache.clear(true);
+      cache.clear();
       setRooms(rooms => rooms.filter(r => r.name !== name));
     }
   }

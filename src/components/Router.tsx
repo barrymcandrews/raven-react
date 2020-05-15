@@ -16,13 +16,16 @@ import {Auth} from 'aws-amplify';
 import Verify from "../pages/Verify";
 import {AppContext} from "./AppContext";
 import {Provider as HttpProvider} from "use-http";
+import {IncomingOptions} from 'use-http/dist';
 
 function Router() {
   const {authState, setAuthState} = useContext(AppContext);
-  const options = {
+  const options: IncomingOptions = {
     interceptors: {
-      request: async ({ options, url, path, route }) => {
-        options.headers.Authorization = (await Auth.currentSession()).getIdToken().getJwtToken()
+      request: async ({ options }) => {
+        options.headers = {
+          Authorization: (await Auth.currentSession()).getIdToken().getJwtToken()
+        }
         return options
       }
     }
@@ -48,7 +51,7 @@ function Router() {
   );
 }
 
-function PrivateRoute({children, authState, ...rest}) {
+function PrivateRoute({children, authState, ...rest}: any) {
   return (
     <Route
       authState

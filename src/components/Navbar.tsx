@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 
-export default function Navbar({ authState, authData }) {
+export default function Navbar({ authState, authData }: any) {
   const signedInItems = () => [
     <span key="nb-name" className="navbar-username">Hello, {authData.username}.</span>,
     <Link key="nb-logout" to="/logout">Log Out</Link>

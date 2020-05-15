@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import {Auth, Hub} from 'aws-amplify'
 import {
   Link, Redirect,
@@ -6,7 +6,8 @@ import {
   useLocation,
 } from "react-router-dom";
 
-const errorMap = {
+type ErrorMap = {[key: string]: string };
+const errorMap: ErrorMap = {
   UserNotConfirmedException: 'User is not confirmed.',
   PasswordResetRequiredException: 'Password must be reset before login.',
   NotAuthorizedException: 'Username or password incorrect.',
@@ -16,14 +17,14 @@ const errorMap = {
   AuthError: 'Username can not be empty.',
 };
 
-export default function Login({authState}) {
+export default function Login({authState}: {authState: string}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [messsage, setMessage] = useState('');
 
   let history = useHistory();
   let location = useLocation();
-  let { from } = location.state || { from: { pathname: "/" } };
+  let { from }: any = location.state || { from: { pathname: "/" } };
 
   function logIn() {
     Auth.signIn(username, password)
@@ -38,8 +39,8 @@ export default function Login({authState}) {
       });
   }
 
-  function onSubmit(e) {
-    e.preventDefault();
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     logIn();
   }
 

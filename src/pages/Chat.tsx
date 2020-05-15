@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, UIEvent, KeyboardEvent} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {AppContext} from "../components/AppContext";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import {useViewportHeight} from "../hooks/use-viewport-height";
 import useFetch from "use-http";
-import {useMessageStore} from "../hooks/use-message-store";
+import {Message, useMessageStore} from "../hooks/use-message-store";
+import {CachePolicies} from 'use-http/dist';
 
 const websocketEndpoint = process.env.REACT_APP_WEBSOCKET_ENDPOINT;
-const wsUrl = (roomName, accessToken) =>
+const wsUrl = (roomName: string, accessToken: string) =>
   `${websocketEndpoint}?` +
   `Room=${roomName}&` +
   `Authorizer=${accessToken}`;
@@ -31,13 +32,13 @@ export default function Chat() {
     },
    });
 
-  const { get, loading, error } = useFetch(`/rooms/${encodedRoom}/messages`, {
+  const { get, loading, error } = useFetch<Message>(`/rooms/${encodedRoom}/messages`, {
     onNewData: (currentData, newData) => {
       if (newData.count === 0) setNoMoreMessages(true);
       append(newData.items);
     },
     retries: 1,
-    cachePolicy: 'no-cache',
+    cachePolicy: CachePolicies.NO_CACHE,
   }, [roomName]);
 
   // Set Socket URL
@@ -72,10 +73,10 @@ export default function Chat() {
     setMessage('');
   }
 
-  function handleKeyPress(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  function handleKeyPress(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === 'Enter' && !event.shiftKey) {
       if (message !== '') send();
-      e.preventDefault();
+      event.preventDefault();
     }
   }
 
@@ -98,14 +99,15 @@ export default function Chat() {
     </style>
   );
 
-  function handleScroll(event) {
+  function handleScroll(event: UIEvent<HTMLDivElement, globalThis.UIEvent>) {
 
     //TODO: Remove this if Safari correctly implements scrollTop for flexboxes
     const isSafari = navigator.userAgent.indexOf('Safari') !== -1
       && navigator.userAgent.indexOf('Chrome') === -1;
+    const target = event.target as any;
     const scrollTop = isSafari ?
-      event.target.scrollHeight - event.target.offsetHeight + event.target.scrollTop
-      : event.target.scrollTop;
+      target.scrollHeight - target.offsetHeight + target.scrollTop
+      : target.scrollTop;
 
     if (scrollTop <= 0 && !loading && !noMoreMessages) {
       const lastMessage = messages[messages.length - 1];
@@ -131,7 +133,7 @@ export default function Chat() {
                   <div className={'message-sender ' + (message.sender === username && 'current-user')}>
                     {message.sender}
                   </div>
-                  <div className="message-content" dangerouslySetInnerHTML={{ __html: message.sanitizedMessage}}/>
+                  <div className="message-content" dangerouslySetInnerHTML={{ __html: message.sanitizedMessage!}}/>
                 </div>
                 :
                 <div key={idx} className="list-placeholder">{message.message}</div>
