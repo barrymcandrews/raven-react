@@ -2,12 +2,12 @@ import {useState} from "react";
 import sanitizeHtml from "sanitize-html"
 
 export interface Message {
-    action: 'message'|'$connect'|'$disconnect'|'$default';
-    message: string;
-    roomName: string;
-    timeSent: number;
-    sender: string;
-    sanitizedMessage?: string;
+  action: 'message'|'$connect'|'$disconnect'|'$default';
+  message: string;
+  roomName: string;
+  timeSent: number;
+  sender: string;
+  sanitizedMessage?: string;
 }
 
 export function useMessageStore() {
