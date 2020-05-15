@@ -41,7 +41,7 @@ export default function Rooms() {
         <div className="flex-col flex-center">
           <div className="legacy-box">
             <div className="flex-row title-bar"/>
-            <p>Are you sure you want to delete the room {roomToDelete}?<br/><br/>All messages will be deleted. You cannot undo this action.</p>
+            <p>Are you sure you want to delete "{roomToDelete}"?<br/><br/>All messages will be deleted. You cannot undo this action.</p>
             <div className="divider"/>
             <div className="flex-row flex-end">
               <button className="login-btn-sm" onClick={() => {deleteRoom(roomToDelete); hideDeleteModal()}}>Yes, Delete</button>
