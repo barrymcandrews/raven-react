@@ -1,5 +1,5 @@
-import {useState} from "react";
-import sanitizeHtml from "sanitize-html"
+import {useEffect, useState} from "react";
+import DOMPurify from "dompurify";
 
 export interface Message {
   action: 'message'|'$connect'|'$disconnect'|'$default';
@@ -16,20 +16,20 @@ export interface RenderedMessage extends Message {
 export function useMessageStore() {
   const [messages, setMessages] = useState<RenderedMessage[]>(() => []);
 
+  useEffect(function addLinkHook() {
+    DOMPurify.addHook('afterSanitizeAttributes', (element: Element) => {
+      if (element.tagName === 'A') {
+        element.setAttribute('target', '_blank');
+        element.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
+  }, []);
+
   function render(message: Message): RenderedMessage {
     return {
       ...message,
-      __html: sanitizeHtml(message.message, {
-        allowedTags: [ 'b', 'i', 'em', 'strong', 'u', 'del', 'a' ],
-        allowedAttributes: {
-          'a': [ 'href', 'rel', 'target'],
-        },
-        transformTags: {
-          'a': sanitizeHtml.simpleTransform('a', {
-            target: '_blank',
-            rel: 'noopener noreferrer',
-          })
-        }
+      __html: DOMPurify.sanitize(message.message, {
+        ALLOWED_TAGS: [ '#text', 'b', 'i', 'em', 'strong', 'u', 'del', 'a' ],
       })
     };
   }
