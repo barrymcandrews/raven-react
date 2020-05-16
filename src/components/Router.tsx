@@ -12,7 +12,7 @@ import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import Rooms from '../pages/Rooms';
 import {Authenticator} from 'aws-amplify-react';
-import {Auth} from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import Verify from "../pages/Verify";
 import {AppContext} from "./AppContext";
 import {Provider as HttpProvider} from "use-http";

@@ -1,5 +1,5 @@
 import React, {createContext, Dispatch, SetStateAction, useEffect, useState} from "react";
-import {Auth} from "aws-amplify";
+import Auth from "@aws-amplify/auth";
 
 export interface AppContextItems {
   idToken: string;

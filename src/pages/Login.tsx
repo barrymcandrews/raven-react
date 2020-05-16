@@ -1,5 +1,6 @@
 import React, {FormEvent, useState} from 'react';
-import {Auth, Hub} from 'aws-amplify'
+import Auth from '@aws-amplify/auth';
+import {Hub} from '@aws-amplify/core';
 import {
   Link, Redirect,
   useHistory,

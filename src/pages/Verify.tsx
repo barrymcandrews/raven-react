@@ -1,5 +1,5 @@
 import React, {FormEvent, useState} from 'react';
-import {Auth} from 'aws-amplify'
+import Auth from '@aws-amplify/auth';
 import {
   useHistory,
   useParams

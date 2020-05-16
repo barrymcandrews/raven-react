@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import Router from './components/Router';
 import * as serviceWorker from './serviceWorker';
-import Amplify from 'aws-amplify';
+import Amplify from '@aws-amplify/core';
 import {AppContextProvider} from "./components/AppContext";
 import {ModalProvider} from "react-modal-hook";
 import Modal from 'react-modal';
