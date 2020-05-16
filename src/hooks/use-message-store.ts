@@ -30,6 +30,7 @@ export function useMessageStore() {
       ...message,
       __html: DOMPurify.sanitize(message.message, {
         ALLOWED_TAGS: [ '#text', 'b', 'i', 'em', 'strong', 'u', 'del', 'a' ],
+        ALLOWED_ATTR: [],
       })
     };
   }
