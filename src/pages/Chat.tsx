@@ -10,7 +10,7 @@ import {CachePolicies} from 'use-http/dist';
 const websocketEndpoint = process.env.REACT_APP_WEBSOCKET_ENDPOINT;
 const wsUrl = (roomName: string, accessToken: string) =>
   `${websocketEndpoint}?` +
-  `Room=${roomName}&` +
+  `Room=${encodeURIComponent(roomName)}&` +
   `Authorizer=${accessToken}`;
 
 
