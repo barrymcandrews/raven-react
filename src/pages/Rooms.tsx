@@ -24,6 +24,11 @@ export default function Rooms() {
   const { post, del, response } = useFetch('/rooms');
 
   async function createRoom() {
+    if (newRoomName === '') {
+      setModalErrorText('Room name cannot be empty');
+      return;
+    }
+
     await post({name: newRoomName});
     if (response.ok) {
       cache.clear();
