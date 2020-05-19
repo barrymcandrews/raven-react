@@ -34,6 +34,7 @@ export default function Rooms() {
       cache.clear();
       get();
       hideModal();
+      setModalErrorText('');
     } else {
       setModalErrorText('Unable to create the room.');
     }
