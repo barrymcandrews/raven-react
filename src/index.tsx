@@ -8,6 +8,7 @@ import {AppContextProvider} from "./components/AppContext";
 import {ModalProvider} from "react-modal-hook";
 import Modal from 'react-modal';
 import ReactGA from 'react-ga';
+import {HttpProvider} from './components/HttpProvider';
 
 Amplify.configure({
   Auth: {
@@ -25,11 +26,13 @@ if (process.env.NODE_ENV === 'production') {
 Modal.setAppElement('#root');
 ReactDOM.render(
 	<React.StrictMode>
-    <AppContextProvider>
-      <ModalProvider>
-        <Router />
-      </ModalProvider>
-    </AppContextProvider>
+    <HttpProvider>
+      <AppContextProvider>
+        <ModalProvider>
+          <Router />
+        </ModalProvider>
+      </AppContextProvider>
+    </HttpProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

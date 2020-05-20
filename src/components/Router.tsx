@@ -15,25 +15,12 @@ import {Authenticator} from 'aws-amplify-react';
 import Auth from '@aws-amplify/auth';
 import Verify from "../pages/Verify";
 import {AppContext} from "./AppContext";
-import {Provider as HttpProvider} from "use-http";
-import {IncomingOptions} from 'use-http/dist';
 
 function Router() {
   const {authState, setAuthState} = useContext(AppContext);
-  const options: IncomingOptions = {
-    interceptors: {
-      request: async ({ options }) => {
-        options.headers = {
-          Authorization: (await Auth.currentSession()).getIdToken().getJwtToken()
-        }
-        return options
-      }
-    }
-  };
 
   return (
     <BrowserRouter>
-      <HttpProvider url={process.env.REACT_APP_REST_ENDPOINT + '/v1'} options={options}>
         <Authenticator hideDefault={true} onStateChange={setAuthState}>
           <Navbar/>
           <Switch>
@@ -46,7 +33,6 @@ function Router() {
             <PrivateRoute authState={authState} exact path="/rooms/:roomName" children={<Chat/>}/>
           </Switch>
         </Authenticator>
-      </HttpProvider>
     </BrowserRouter>
   );
 }

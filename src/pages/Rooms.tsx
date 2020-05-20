@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import ReactModal from "react-modal";
 import {useModal} from "react-modal-hook";
 import {useFetch} from "use-http";
+import CreateRoomModal from '../components/CreateRoomModal';
+import DeleteRoomModal from '../components/DeleteRoomModal';
 
 interface Room {
   name: string;
@@ -12,90 +13,35 @@ interface Room {
 }
 
 export default function Rooms() {
-
-  const [newRoomName, setNewRoomName] = useState('');
-  const [modalErrorText, setModalErrorText] = useState('');
   const [rooms, setRooms] = useState<Room[]>([]);
 
   const { get, cache, loading, error } = useFetch('/rooms', {
     onNewData: (c, n) => setRooms(n),
     retries: 1,
   }, []);
-  const { post, del, response } = useFetch('/rooms');
 
-  async function createRoom() {
-    if (newRoomName === '') {
-      setModalErrorText('Room name cannot be empty');
-      return;
-    }
+  async function reloadRooms() {
+    cache.clear();
+    get();
+  }
 
-    await post({name: newRoomName});
-    if (response.ok) {
-      cache.clear();
-      get();
-      hideModal();
-      setModalErrorText('');
-    } else {
-      setModalErrorText('Unable to create the room.');
-    }
+  async function markRoomAsDeleting(roomName: string) {
+    setRooms(rooms => rooms.map(room => ({
+        ...room,
+        status: room.name === roomName ? 'deleting' : room.status,
+      })
+    ));
   }
 
   const [roomToDelete, setRoomToDelete] = useState<string>('');
-   const [showDeleteModal, hideDeleteModal] = useModal(() => (
-    <ReactModal isOpen className="flex modal" overlayClassName="overlay">
-      <div className="flex-row">
-        <div className="flex-col flex-center">
-          <div className="legacy-box">
-            <div className="flex-row title-bar"/>
-            <p>Are you sure you want to delete "{roomToDelete}"?<br/><br/>All messages will be deleted. You cannot undo this action.</p>
-            <div className="divider"/>
-            <div className="flex-row flex-end">
-              <button className="login-btn-sm" onClick={() => {deleteRoom(roomToDelete); hideDeleteModal()}}>Yes, Delete</button>
-              <button className="login-btn-sm" onClick={hideDeleteModal}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ReactModal>
+  const [showDeleteModal, hideDeleteModal] = useModal(() => (
+    <DeleteRoomModal onClose={hideDeleteModal} onComplete={reloadRooms} deleteStarted={markRoomAsDeleting} roomToDelete={roomToDelete}/>
   ), [roomToDelete]);
 
-  async function deleteRoom(name: string) {
-    setRooms(rooms => {
-      return rooms.map(room => {
-        return {
-          ...room,
-          status: room.name === name ? 'deleting' : room.status,
-        }
-      })
-    })
-    await del(name);
-    if (response.ok) {
-      cache.clear();
-      get();
-    }
-  }
 
-  const [showModal, hideModal] = useModal(() => (
-    <ReactModal isOpen className="flex modal" overlayClassName="overlay">
-      <div className="flex-row">
-        <div className="flex-col flex-center">
-          <div className="legacy-box">
-            <div className="flex-row title-bar"/>
-            <p>Enter a name for your new room. The name must be unique.</p>
-            {modalErrorText !== '' && <p className="error">{modalErrorText}</p>}
-            <div className="flex-row">
-              <input placeholder="my-room-name" onChange={e => setNewRoomName(e.target.value)}/>
-            </div>
-            <div className="divider"/>
-            <div className="flex-row flex-end">
-              <button className="login-btn-sm" onClick={() => createRoom()}>Create</button>
-              <button className="login-btn-sm" onClick={hideModal}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ReactModal>
-  ), [modalErrorText, newRoomName]);
+  const [showCreateRoomModal, hideCreateRoomModal] = useModal(() => (
+    <CreateRoomModal onClose={hideCreateRoomModal} onSuccess={reloadRooms} />
+  ));
 
   const roomsList = () => {
     return rooms.map((room, index) => (
@@ -104,7 +50,7 @@ export default function Rooms() {
             <Link className="list-item" to={'/rooms/' + room.name}>{room.name}</Link>
           }
           {room.status !== 'ready' &&
-          <u className="list-item disabled">{room.name}</u>
+            <u className="list-item disabled">{room.name}</u>
           }
 
           {room.status === 'deleting' &&
@@ -125,8 +71,8 @@ export default function Rooms() {
           <div className="list-header">
             <span>Chat Rooms</span>
             <span>
-            <button className="bar-button" onClick={showModal}>New Chat Room</button>
-          </span>
+              <button className="bar-button" onClick={showCreateRoomModal}>New Chat Room</button>
+            </span>
           </div>
           <div id="list-item-target" className="scroll-container">
             {error && <div className="error list-placeholder">Unable to load rooms.</div>}
