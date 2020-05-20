@@ -57,8 +57,7 @@ export default function Rooms() {
             <u className="list-item disabled">(Deleting...)</u>
           }
           {room.canDelete && room.status === 'ready' &&
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a className="list-item" onClick={() => {setRoomToDelete(room.name); showDeleteModal()}} href="#">(Delete)</a>
+            <button className="link list-item" onClick={() => {setRoomToDelete(room.name); showDeleteModal()}}>(Delete)</button>
           }
         </div>
     ));

@@ -272,7 +272,7 @@ textarea {
   .list-button:hover {
 	background-color: rgb(0,0,128);
 	color: white;
-	a, .disabled {
+	a, button, .disabled {
 	  color: white;
 	}
   }
@@ -553,4 +553,13 @@ body > div > div {
 
 .disabled {
   color: #7f7f7f;
+}
+
+button.link {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  /*input has OS specific font-family*/
+  text-decoration: underline;
+  cursor: pointer;
 }
