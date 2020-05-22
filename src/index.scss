@@ -549,6 +549,10 @@ body > div > div {
   * {
     flex-shrink: 0;
   }
+
+  ul, ol {
+    margin: 0;
+  }
 }
 
 .disabled {
