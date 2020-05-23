@@ -41,13 +41,11 @@ export default function Chat() {
     cachePolicy: CachePolicies.NO_CACHE,
   }, [roomName]);
 
-  // Set Socket URL
-  useEffect(() => {
+  useEffect(function updateSocketUrl() {
     setSocketUrl(wsUrl(roomName, accessToken));
   }, [roomName, accessToken]);
 
-  // Message Received
-  useEffect(() => {
+  useEffect(function receiveMessage() {
     if (lastJsonMessage !== null) {
       console.log(lastJsonMessage);
       push(lastJsonMessage);
