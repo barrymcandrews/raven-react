@@ -55,7 +55,7 @@ export default function CreateRoomModal({onClose, onSuccess}: CreateRoomModalPro
             <p className="error">{formik.errors.roomName}</p>
             }
             <div className="flex-row">
-              <input placeholder="my-room-name" {...formik.getFieldProps('roomName')} />
+              <input autoFocus placeholder="my-room-name" {...formik.getFieldProps('roomName')} />
             </div>
             <div className="divider"/>
             <div className="flex-row flex-end">
