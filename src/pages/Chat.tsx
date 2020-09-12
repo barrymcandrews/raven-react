@@ -20,6 +20,7 @@ export default function Chat() {
   const encodedRoom = encodeURIComponent(roomName);
   const { accessToken, username } = useContext(AppContext);
   const [message, setMessage] = useState('');
+  const [sentMessageTimes, setSentMessageTimes] = useState<number[]>(() => []);
   const [socketUrl, setSocketUrl] = useState(wsUrl(roomName, accessToken));
   const [noMoreMessages, setNoMoreMessages] = useState(false);
   const { messages, push, append } = useMessageStore();
@@ -48,7 +49,11 @@ export default function Chat() {
   useEffect(function receiveMessage() {
     if (lastJsonMessage !== null) {
       console.log(lastJsonMessage);
-      push(lastJsonMessage);
+
+      // Don't display the message if it was sent by this window
+      if (lastJsonMessage.sender !== username || !sentMessageTimes.includes(lastJsonMessage.timeSent)) {
+        push(lastJsonMessage);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getWebSocket, lastJsonMessage]);
@@ -63,10 +68,17 @@ export default function Chat() {
   }[readyState];
 
   function send() {
-    sendJsonMessage({
+    const msg: Message = {
       action: "message",
       message: message,
-    });
+      sender: username,
+      roomName: roomName,
+      timeSent: Date.now(),
+    }
+
+    sendJsonMessage(msg);
+    setSentMessageTimes(prev => [...prev, msg.timeSent]);
+    push(msg);
     console.log(message);
     setMessage('');
   }
