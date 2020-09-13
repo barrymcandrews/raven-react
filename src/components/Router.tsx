@@ -15,6 +15,7 @@ import {Authenticator} from 'aws-amplify-react';
 import Auth from '@aws-amplify/auth';
 import Verify from "../pages/Verify";
 import {AppContext} from "./AppContext";
+import Error from '../pages/Error';
 
 function Router() {
   const {authState, setAuthState} = useContext(AppContext);
@@ -31,6 +32,7 @@ function Router() {
             <Route exact path="/logout" children={<Logout/>}/>
             <PrivateRoute authState={authState} exact path="/rooms" children={<Rooms/>}/>
             <PrivateRoute authState={authState} exact path="/rooms/:roomName" children={<Chat/>}/>
+            <Route path="*"><Error/></Route>
           </Switch>
         </Authenticator>
     </BrowserRouter>
