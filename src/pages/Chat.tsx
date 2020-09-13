@@ -33,6 +33,10 @@ export default function Chat() {
     },
    });
 
+  const { error: roomNotFound } = useFetch(`/rooms/${encodedRoom}`, {
+    cachePolicy: CachePolicies.NO_CACHE,
+  }, [roomName]);
+
   const { get, loading, error } = useFetch<Message>(`/rooms/${encodedRoom}/messages`, {
     onNewData: (currentData, newData) => {
       if (newData.count === 0) setNoMoreMessages(true);
@@ -148,14 +152,19 @@ export default function Chat() {
                 :
                 <div key={idx} className="list-placeholder">{message.message}</div>
             )}
-            {error && <div className="list-placeholder error">Unable to load older messages.</div>}
-            {loading && <div className="list-placeholder">Loading older messages...</div>}
-            {noMoreMessages && <div className="list-placeholder">No more messages.</div>}
+
+            {roomNotFound && <div className="list-placeholder error">This room does not exist.</div>}
+            {!roomNotFound && <>
+              {error && <div className="list-placeholder error">Unable to load older messages.</div>}
+              {loading && <div className="list-placeholder">Loading older messages...</div>}
+              {noMoreMessages && <div className="list-placeholder">No more messages.</div>}
+            </>}
+
           </div>
 
           <div className="list-footer">
             <textarea  id="msg-textarea" onChange={e => setMessage(e.target.value)} onKeyPress={handleKeyPress} value={message}  placeholder="Type your message here..."/>
-            <button className="bar-button" disabled={message === ''} onClick={() => send()}>Send</button>
+            <button className="bar-button" disabled={message === '' || typeof roomNotFound !== 'undefined'} onClick={() => send()}>Send</button>
           </div>
         </div>
       </div>
