@@ -34,7 +34,7 @@ export default function Chat() {
     },
     onOpen: event => {
       let lastMessage = messages[0] || {timeSent: 0};
-      getRange(`?before=${Date.now()}&after=${lastMessage.timeSent}`)
+      getRange(`?before=${Date.now()}&after=${lastMessage.timeSent + 1}`)
         .then(value => value.items.slice(0).reverse().forEach((item: Message) => push(item)));
     }
    });
