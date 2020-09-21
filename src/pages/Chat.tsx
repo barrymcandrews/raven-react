@@ -24,6 +24,7 @@ export default function Chat() {
   const [socketUrl, setSocketUrl] = useState(wsUrl(roomName, accessToken));
   const [noMoreMessages, setNoMoreMessages] = useState(false);
   const { messages, push, append } = useMessageStore();
+  const {get: getRange} = useFetch<Message[]>(`/rooms/${encodedRoom}/messages`);
   const { sendJsonMessage, lastJsonMessage, readyState, getWebSocket } = useWebSocket(socketUrl, {
     reconnectAttempts: 10,
     reconnectInterval: 20000,
@@ -31,13 +32,18 @@ export default function Chat() {
       console.log(closeEvent);
       return true;
     },
+    onOpen: event => {
+      let lastMessage = messages[0] || {timeSent: 0};
+      getRange(`?before=${Date.now()}&after=${lastMessage.timeSent}`)
+        .then(value => value.items.slice(0).reverse().forEach((item: Message) => push(item)));
+    }
    });
 
   const { error: roomNotFound } = useFetch(`/rooms/${encodedRoom}`, {
     cachePolicy: CachePolicies.NO_CACHE,
   }, [roomName]);
 
-  const { get, loading, error } = useFetch<Message>(`/rooms/${encodedRoom}/messages`, {
+  const { get, loading, error } = useFetch<Message[]>(`/rooms/${encodedRoom}/messages`, {
     onNewData: (currentData, newData) => {
       if (newData.count === 0) setNoMoreMessages(true);
       append(newData.items);
