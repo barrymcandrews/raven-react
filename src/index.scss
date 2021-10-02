@@ -57,12 +57,20 @@ h4 {
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
+
 .m-5 {
   margin: 5px;
 }
 
 .w-375 {
   width: 375px;
+}
+
+.mw-700 {
+  max-width: 700px;
 }
 
 .w-500 {
@@ -82,12 +90,21 @@ h4 {
 .navbar {
   line-height: 1;
   font-size: 30px;
-  border-bottom: solid 0.5px rgba(255, 255, 255, 0.7);
 
   .navbar-img {
 	background: url("/static/img/glitch-5.png") center;
 	background-size: cover;
 	min-height: 60px;
+  }
+
+  .navbar-title {
+    font-family: "SF Alien Encounters";
+    text-align: center;
+    text-decoration: none !important;
+
+    div {
+      margin: 8px 5px 5px;
+    }
   }
 
   .navbar-content {
@@ -98,6 +115,13 @@ h4 {
     margin-right: auto;
 	//padding-left: 10px;
 	//padding-right: 10px;
+    @media screen and (min-width: 500px) {
+      border: solid 0.5px rgba(255, 255, 255, 0.7);
+    }
+    button {
+      padding: 4px 25px;
+      margin: 10px;
+    }
   }
 
   .navbar-item {
