@@ -10,12 +10,7 @@ export default function Home({authState}: {authState: string}) {
         <div className="w-375 flex-col">
           <div className="main-content flex-grow-1">
             <div className="flex-col  h-100 text-center">
-              <h2>Welcome to Raven Messenger</h2>
-              <p>Raven is the retro chat app for 2020.</p>
-
-              <div className="flex-row">
-                <img className="small-content" height={100} width={100} src="/static/img/raven-glitched.png" alt="raven.png"/>
-              </div>
+              <h2>Welcome to <br/> Raven Messenger</h2>
 
               {/*<div className="flex-col flex-center flex-grow-1">*/}
               {/*  <p>With Raven Messenger you can:</p>*/}
@@ -38,6 +33,11 @@ export default function Home({authState}: {authState: string}) {
                     <Link to="/signup" className="welcome-button"><button>Sign Up</button></Link>
                   </div>
                 }
+
+                <div className="flex-row">
+                  <Link to="/about" className="welcome-button"><button>What is this site?</button></Link>
+                </div>
+
               </div>
             </div>
           </div>

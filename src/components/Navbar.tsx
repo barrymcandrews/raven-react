@@ -14,11 +14,12 @@ export default function Navbar({ authState, authData }: any) {
   const navbarRight = (authState === 'signedIn') ? signedInItems() : signedOutItems();
 	return (
 		<div className="navbar">
-      <Link to="/"><div className="navbar-img"/></Link>
+      <Link className="navbar-title" to="/"><div>RAVEN MESSENGER</div></Link>
 
 			<div className="navbar-content">
-				<NavLink className="navbar-item" exact activeClassName="selected" to="/">Home</NavLink>
-				<NavLink className="navbar-item" activeClassName="selected" to="/rooms">Rooms</NavLink>
+				<NavLink exact activeClassName="selected" to="/"><button>Home</button></NavLink>
+				<NavLink activeClassName="selected" to="/rooms"><button>Rooms</button></NavLink>
+				{/*<NavLink activeClassName="selected" to="/about"><button>About</button></NavLink>*/}
 				<div className="navbar-placeholder"/>
         <div className="navbar-item" children={navbarRight}/>
 			</div>
