@@ -607,6 +607,10 @@ button.link {
   position: absolute;
   top: 15px;
   bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 700px;
+
   width: 100%;
   z-index: -1;
 
