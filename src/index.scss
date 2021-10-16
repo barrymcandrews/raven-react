@@ -118,8 +118,11 @@ h4 {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    background-color: black;
 	//padding-left: 10px;
 	//padding-right: 10px;
+    border-top: solid 0.5px rgba(255, 255, 255, 0.7);
+    border-bottom: solid 0.5px rgba(255, 255, 255, 0.7);
     @media screen and (min-width: 500px) {
       border: solid 0.5px rgba(255, 255, 255, 0.7);
     }
@@ -595,4 +598,20 @@ button.link {
   /*input has OS specific font-family*/
   text-decoration: underline;
   cursor: pointer;
+}
+
+.background-image {
+  background: url("/static/img/grid.jpg") center bottom;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 15px;
+  bottom: 0;
+  width: 100%;
+  z-index: -1;
+
+  @media (min-aspect-ratio: 16/9) {
+    background-size: cover;
+    background-position: top;
+  }
 }

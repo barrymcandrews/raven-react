@@ -30,6 +30,7 @@ ReactDOM.render(
       <AppContextProvider>
         <ModalProvider>
           <Router />
+          <div className="background-image" />
         </ModalProvider>
       </AppContextProvider>
     </HttpProvider>
