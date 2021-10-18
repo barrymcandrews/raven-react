@@ -20,6 +20,10 @@ body {
   background: black;
   color: white;
   height: 100vh;
+}
+
+#root {
+  position: relative;
   width: 100%;
   overflow-x: hidden;
 }
@@ -178,6 +182,7 @@ button, input, textarea {
 }
 
 button {
+  color: black;
   padding: 6px 30px;
   border: 2px solid #a6a6a6;
   border-right-color: #444;
