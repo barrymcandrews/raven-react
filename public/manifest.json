@@ -2,6 +2,11 @@
   "short_name": "Raven",
   "name": "Raven Messenger",
   "icons": [
+    {
+      "src": "/img/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
   ],
   "start_url": ".",
   "display": "standalone",
