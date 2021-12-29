@@ -13,7 +13,7 @@
   </tr>
   <tr>
     <td>Password</td>
-    <td>#Password1</td>
+    <td>@Password1</td>
   </tr>
 </table>
 
